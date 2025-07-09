@@ -6,10 +6,12 @@ import com.example.backend.board.dto.BoardDto;
 import com.example.backend.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +46,16 @@ public class BoardService {
 
     public List<BoardListInfo> list() {
         return boardRepository.findAllByOrderByIdDesc();
+    }
+
+    public BoardDto getBoardById(Integer id) {
+        Board board = boardRepository.findById(id).get();
+        BoardDto boardDto = new BoardDto();
+        boardDto.setId(board.getId());
+        boardDto.setTitle(board.getTitle());
+        boardDto.setContent(board.getContent());
+        boardDto.setAuthor(board.getAuthor());
+        boardDto.setInsertedAt(board.getInsertedAt());
+        return boardDto;
     }
 }

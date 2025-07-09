@@ -6,7 +6,9 @@ export function AppNavBar() {
     <div>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand>PRJ3</Navbar.Brand>
+          <Navbar.Brand to="/" as={Link}>
+            PRJ3
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           {/* aria 어쩌구는 읽을 때 제공해주는 거라 우리한텐 필요없음 */}
           <Navbar.Collapse id="basic-navbar-nav">

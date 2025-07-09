@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+// 게시물 목록보기에서 보이게 할 것들을 인터페이스로
 public interface BoardListInfo {
     Integer getId();
 
@@ -13,6 +14,8 @@ public interface BoardListInfo {
 
     LocalDateTime getInsertedAt();
 
+    // 원래는 위에 getInsertedAt으로 받아와서 날짜랑 시간이 다 보였는데
+    // 아래와 같이 코드를 작성해서 작성 시간에 따라 다르게 보이게 함
     default String getTimesAgo() {
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         LocalDateTime insertedAt = this.getInsertedAt();

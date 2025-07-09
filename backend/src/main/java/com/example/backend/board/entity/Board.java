@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+// Entity 즉 테이블 만드는 거라고 생각하면 됨
 @Getter
 @Setter
 @Entity

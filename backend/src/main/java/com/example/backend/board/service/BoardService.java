@@ -20,6 +20,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
+    // 게시물 작성 Create
     public void add(BoardDto dto) {
         // entity에 dto의 값들 옮겨 담고
         Board board = new Board();
@@ -31,6 +32,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
+    // 제목, 본문, 작성자 중에 하나라도 안 써지면 false 를 리턴 : 값들이 유효한지 확인하는 메소드
     public boolean validate(BoardDto dto) {
         if (dto.getTitle() == null || dto.getTitle().trim().isBlank()) {
             return false;
@@ -44,10 +46,12 @@ public class BoardService {
         return true;
     }
 
+    // 게시물 목록 보기 Read(list)
     public List<BoardListInfo> list() {
         return boardRepository.findAllByOrderByIdDesc();
     }
 
+    // 게시물 하나 보기 Read(one)
     public BoardDto getBoardById(Integer id) {
         Board board = boardRepository.findById(id).get();
         BoardDto boardDto = new BoardDto();
@@ -59,10 +63,12 @@ public class BoardService {
         return boardDto;
     }
 
+    // 게시물 삭제 Delete
     public void deleteById(Integer id) {
         boardRepository.deleteById(id);
     }
 
+    // 게시물 수정(갱신) Update
     public void update(BoardDto boardDto) {
         // 조회
         Board db = boardRepository.findById(boardDto.getId()).get();

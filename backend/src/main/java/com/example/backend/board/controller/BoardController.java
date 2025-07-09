@@ -20,17 +20,22 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    // <?> : 리턴 타입 안 정해져 있어서 이렇게 씀
     @PutMapping("{id}")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
                                          @RequestBody BoardDto boardDto) {
+        // 값들이 유효한지 확인하는 메소드를 통해
         boolean result = boardService.validate(boardDto);
         if (result) {
+            // 제대로 되었을 때 service에게 일 시키고
             boardService.update(boardDto);
+            // react에 보낼 응답
             return ResponseEntity.ok().body(Map.of(
                     "message", Map.of(
                             "type", "success",
                             "text", id + "번 게시물이 수정되었습니다.")));
         } else {
+            // 이상할 때 react에 보낼 응답
             return ResponseEntity.ok().body(Map.of(
                     "message", Map.of(
                             "type", "error",
@@ -40,6 +45,7 @@ public class BoardController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable Integer id) {
+        // 게시물 삭제 응답 보내기
         boardService.deleteById(id);
         return ResponseEntity.ok().body(Map.of(
                 "message", Map.of(
@@ -51,29 +57,31 @@ public class BoardController {
 
     @GetMapping("{id}")
     public BoardDto getBoardById(@PathVariable Integer id) {
+        // 게시물 하나 보기
         return boardService.getBoardById(id);
     }
 
     @GetMapping("list")
     public List<BoardListInfo> getAllBoards() {
-
+        // 게시물 목록 보기
         return boardService.list();
     }
 
     @PostMapping("add")
     public ResponseEntity<?> add(@RequestBody BoardDto dto) {
-        // 값들이 유효한지 확인
+        // 값들이 유효한지 확인하는 메소드를 통해
         boolean result = boardService.validate(dto);
 
         if (result) {
-            // service에게 넘겨서 일 시키기
+            // 제대로 되었을 때 service에게 일 시키고
             boardService.add(dto);
-
+            // react에 보낼 응답
             return ResponseEntity.ok().body(
                     Map.of("message",
                             Map.of("type", "success",
                                     "text", "새 글이 저장되었습니다.")));
         } else {
+            // 이상할 때 react에 보낼 응답
             return ResponseEntity.badRequest().body(Map.of(
                     "message", Map.of(
                             "type", "error",

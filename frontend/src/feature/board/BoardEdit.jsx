@@ -1,7 +1,3 @@
-import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 import {
   Button,
   Col,
@@ -12,49 +8,50 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate, useSearchParams } from "react-router";
+import { toast } from "react-toastify";
 
-export function BoardDetail() {
+export function BoardEdit() {
   const [board, setBoard] = useState(null);
   const [modalShow, setModalShow] = useState(false);
 
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // axios로 해당 게시물 가져오기
     axios
-      .get(`/api/board/${id}`)
+      .get(`/api/board/${searchParams.get("id")}`)
       .then((res) => {
-        console.log("잘됨");
+        console.log("good");
         setBoard(res.data);
       })
       .catch((err) => {
-        console.log("안됨");
-        toast("해당 게시물이 없습니다.", { type: "warning" });
+        console.log("bad");
+        toast("해당 게시물이 존재하지 않습니다.", { type: "warning" });
       })
       .finally(() => {
-        console.log("항상");
+        console.log("always");
       });
   }, []);
 
-  function handleDeleteButtonClick() {
+  function handleSaveButtonClick() {
     axios
-      .delete(`/api/board/${id}`)
+      .put(`/api/board/${searchParams.get("id")}`, board)
       .then((res) => {
-        console.log("잘됨");
+        console.log("good");
         const message = res.data.message;
-        if (message) {
-          toast(message.text, { type: message.type });
-        }
-        navigate("/");
+        toast(message.text, { type: message.type });
+        navigate(`/board/${board.id}`);
       })
       .catch((err) => {
-        console.log("안됨");
-        toast("게시물이 삭제되지 않았습니다.", { type: "warning" });
+        console.log("bad");
+        toast("게시물 수정시 오류가 발생하였습니다.", { type: "warning" });
       })
       .finally(() => {
-        console.log("항상");
+        console.log("always");
       });
   }
 
@@ -65,11 +62,15 @@ export function BoardDetail() {
   return (
     <Row className="justify-content-center">
       <Col xs={12} md={8} lg={6}>
-        <h2 className="mb-4">{board.id}번 게시물</h2>
+        <h2 className="mb-4">{board.id}번 게시물 수정</h2>
         <div>
           <FormGroup className="mb-3" controlId="title1">
             <FormLabel>제목</FormLabel>
-            <FormControl readOnly={true} value={board.title} />
+            <FormControl
+              value={board.title}
+              onChange={(e) => setBoard({ ...board, title: e.target.value })}
+            />
+            {/*  상태는 객체를 복사해서 써야함 중요!! */}
           </FormGroup>
         </div>
         <div>
@@ -78,55 +79,45 @@ export function BoardDetail() {
             <FormControl
               as="textarea"
               rows={6}
-              readOnly={true}
               value={board.content}
+              onChange={(e) => setBoard({ ...board, content: e.target.value })}
             />
           </FormGroup>
         </div>
         <div>
           <FormGroup className="mb-3" controlId="author1">
             <FormLabel>작성자</FormLabel>
-            <FormControl readOnly={true} value={board.author} />
-          </FormGroup>
-        </div>
-        <div>
-          <FormGroup className="mb-3" controlId="insertedAt1">
-            <FormLabel>작성일시</FormLabel>
             <FormControl
-              type="datetime-local"
-              readOnly={true}
-              value={board.insertedAt}
+              value={board.author}
+              onChange={(e) => setBoard({ ...board, author: e.target.value })}
             />
           </FormGroup>
         </div>
         <div>
           <Button
             className="me-2"
-            variant="outline-danger"
-            onClick={() => setModalShow(true)}
+            variant="outline-secondary"
+            onClick={() => navigate(-1)}
           >
-            삭제
+            취소
           </Button>
-          <Button
-            variant="outline-info"
-            onClick={() => navigate(`/board/edit?id=${board.id}`)}
-          >
-            수정
+          <Button variant="primary" onClick={() => setModalShow(true)}>
+            저장
           </Button>
         </div>
       </Col>
 
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>게시물 삭제 확인</Modal.Title>
+          <Modal.Title>게시물 저장 확인</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{board.id}번 게시물을 삭제하겠습니까?</Modal.Body>
+        <Modal.Body>{board.id}번 게시물을 수정하겠습니까?</Modal.Body>
         <Modal.Footer>
           <Button variant="outline-dark" onClick={() => setModalShow(false)}>
             취소
           </Button>
-          <Button variant="danger" onClick={handleDeleteButtonClick}>
-            삭제
+          <Button variant="primary" onClick={handleSaveButtonClick}>
+            저장
           </Button>
         </Modal.Footer>
       </Modal>

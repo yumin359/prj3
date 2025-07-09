@@ -22,12 +22,22 @@ public class BoardController {
     @PostMapping("add")
     @ResponseBody
     public ResponseEntity<Object> add(@RequestBody BoardDto dto) {
-        // service에게 넘겨서 일 시키기
-        boardService.add(dto);
+        // 값들이 유효한지 확인
+        boolean result = boardService.validate(dto);
 
-        return ResponseEntity.ok().body(
-                Map.of("message",
-                        Map.of("type", "success",
-                                "text", "새 글이 저장되었습니다.")));
+        if (result) {
+            // service에게 넘겨서 일 시키기
+            boardService.add(dto);
+
+            return ResponseEntity.ok().body(
+                    Map.of("message",
+                            Map.of("type", "success",
+                                    "text", "새 글이 저장되었습니다.")));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "message", Map.of(
+                            "type", "error",
+                            "text", "입력한 내용이 유효하지 않습니다.")));
+        }
     }
 }

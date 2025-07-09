@@ -13,11 +13,13 @@ import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router";
 import { toast } from "react-toastify";
 
+// BoardDetail, BoardAdd 등 유사한 주석은 안 달음
 export function BoardEdit() {
   const [board, setBoard] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // BoardDetail(dynamic segments(경로로 사용됨) 사용)과 다르게 쿼리스트링으로 경로 받아와서 써준 useSearchParams
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
@@ -90,7 +92,7 @@ export function BoardEdit() {
               value={board.title}
               onChange={(e) => setBoard({ ...board, title: e.target.value })}
             />
-            {/*  상태는 객체를 복사해서 써야함 중요!! */}
+            {/* 상태는 객체를 복사해서 써야함!! 중요! */}
           </FormGroup>
         </div>
         <div>

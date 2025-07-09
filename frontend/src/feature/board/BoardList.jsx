@@ -4,17 +4,19 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 export function BoardList() {
+  // 게시물 목록들은 계속 바뀌는(삭제, 저장, 수정, 추가) 것이므로 state
   const [boardList, setBoardList] = useState(null);
-
+  // 코드로 경로 이동하기 위해 navigate 활용
   const navigate = useNavigate();
 
-  // 도장모양쓰기
+  // useEffect는 도장 모양 쓰기
   useEffect(() => {
     // 마운트 될 때(initial render 시) 실행되는 코드
     axios
       .get("/api/board/list")
       .then((res) => {
         console.log("잘 될 때 코드");
+        // 정상적으로 응답 데이터 받으면
         setBoardList(res.data);
       })
       .catch((err) => {
@@ -25,8 +27,8 @@ export function BoardList() {
       });
   }, []);
 
+  // 게시물 하나 보기로 이동(navigate 활용)
   function handleTableRowClick(id) {
-    // 게시물 보기로 이동
     navigate(`/board/${id}`);
   }
 
@@ -39,6 +41,7 @@ export function BoardList() {
     <Row>
       <Col>
         <h2 className="mb-4">글 목록</h2>
+        {/*게시물 하나도 없으면 p문단 글 나옴*/}
         {boardList.length > 0 ? (
           <Table striped={true} hover={true}>
             <thead>

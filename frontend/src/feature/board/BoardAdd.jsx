@@ -85,7 +85,7 @@ export function BoardAdd() {
         </div>
         <div className="mb-3">
           <Button onClick={handleSaveButtonClick} disabled={isProcessing}>
-            {isProcessing && <Spinner />}
+            {isProcessing && <Spinner size="sm" />}
             {isProcessing || "저장"}
           </Button>
         </div>

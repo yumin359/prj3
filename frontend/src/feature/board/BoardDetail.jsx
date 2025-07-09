@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -17,6 +17,8 @@ export function BoardDetail() {
 
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     // axios로 해당 게시물 가져오기
     axios
@@ -33,6 +35,26 @@ export function BoardDetail() {
         console.log("항상");
       });
   }, []);
+
+  function handleDeleteButtonClick() {
+    axios
+      .delete(`/api/board/${id}`)
+      .then((res) => {
+        console.log("잘됨");
+        const message = res.data.message;
+        if (message) {
+          toast(message.text, { type: message.type });
+        }
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("안됨");
+        toast("게시물이 삭제되지 않았습니다.", { type: "warning" });
+      })
+      .finally(() => {
+        console.log("항상");
+      });
+  }
 
   if (!board) {
     return <Spinner />;
@@ -76,7 +98,11 @@ export function BoardDetail() {
           </FormGroup>
         </div>
         <div>
-          <Button className="me-2" variant="outline-danger">
+          <Button
+            className="me-2"
+            variant="outline-danger"
+            onClick={handleDeleteButtonClick}
+          >
             삭제
           </Button>
           <Button variant="outline-info">수정</Button>

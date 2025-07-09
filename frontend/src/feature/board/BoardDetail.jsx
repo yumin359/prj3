@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -16,6 +16,8 @@ export function BoardDetail() {
   const [board, setBoard] = useState(null);
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // axios로 해당 게시물 가져오기
@@ -36,6 +38,30 @@ export function BoardDetail() {
 
   if (!board) {
     return <Spinner />;
+  }
+
+  function handleDeleteButtonClick(id) {
+    axios
+      .delete(`/api/board/${id}`)
+      .then((res) => {
+        console.log("삭제됨");
+        const message = res.data.message;
+        // toast
+        toast(message.text, { type: message.type });
+        // "/"로 이동
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("삭제안됨");
+      })
+      .finally(() => {
+        console.log("항상");
+      });
+  }
+
+  function handleUpdateButtonClick(id) {
+    // 게시물 수정 화면으로 이동
+    navigate(`/board/edit/${id}`);
   }
 
   return (
@@ -76,10 +102,19 @@ export function BoardDetail() {
           </FormGroup>
         </div>
         <div>
-          <Button className="me-2" variant="outline-danger">
+          <Button
+            className="me-2"
+            variant="outline-danger"
+            onClick={() => handleDeleteButtonClick(board.id)}
+          >
             삭제
           </Button>
-          <Button variant="outline-info">수정</Button>
+          <Button
+            variant="outline-info"
+            onClick={() => handleUpdateButtonClick(board.id)}
+          >
+            수정
+          </Button>
         </div>
       </Col>
     </Row>

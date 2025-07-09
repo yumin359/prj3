@@ -20,6 +20,22 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Object> update(@PathVariable Integer id) {
+        System.out.println("BoardController.update");
+        return null;
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+        boardService.delete(id);
+        return ResponseEntity.ok().body(
+                Map.of("message",
+                        Map.of("type", "success",
+                                "text", "게시물이 삭제되었습니다."))
+        );
+    }
+
     @GetMapping("{id}")
     public BoardDto getBoardById(@PathVariable Integer id) {
         return boardService.getBoardById(id);

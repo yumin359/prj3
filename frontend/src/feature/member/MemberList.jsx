@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 export function MemberList() {
+  // 회원 목록은 삭제, 수정, 추가 등으로 변경될 수 있으니 state
   const [memberList, setMemberList] = useState(null);
 
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export function MemberList() {
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate(`/member?email=${member.email}`)}
                 >
+                  {/*회원 정보 보기 경로는 쿼리스트링을 이용함*/}
                   <td>{member.email}</td>
                   <td>{member.nickName}</td>
                   <td>{member.insertedAt}</td>

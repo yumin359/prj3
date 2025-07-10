@@ -12,7 +12,10 @@ import axios from "axios";
 import { useParams, useSearchParams } from "react-router";
 
 export function MemberDetail() {
+  // 회원 정보는 수정, 삭제에 따라 바뀔 수 있으므로 state
   const [member, setMember] = useState(null);
+  // 쿼리스트링을 통해 경로를 요청하므로 useSearchParams
+  // Board랑 비교해서 다시 보기
   const [params] = useSearchParams();
 
   useEffect(() => {

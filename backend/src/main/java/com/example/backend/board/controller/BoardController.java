@@ -21,6 +21,7 @@ public class BoardController {
     private final BoardService boardService;
 
     // <?> : 리턴 타입 안 정해져 있어서 이렇게 씀
+    // member랑 비교해서 다시 보기
     @PutMapping("{id}")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
                                          @RequestBody BoardDto boardDto) {
@@ -43,6 +44,7 @@ public class BoardController {
         }
     }
 
+    // member랑 비교해서 다시 보기
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable Integer id) {
         // 게시물 삭제 응답 보내기
@@ -55,6 +57,7 @@ public class BoardController {
         ));
     }
 
+    // member랑 비교해서 다시 보기
     @GetMapping("{id}")
     public BoardDto getBoardById(@PathVariable Integer id) {
         // 게시물 하나 보기

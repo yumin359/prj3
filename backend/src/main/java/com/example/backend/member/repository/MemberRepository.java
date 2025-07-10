@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
+    // 중복된 닉네임을 방지하기 위해 닉네임들을 조회하는 메소드
+    // spring data jpa 의 쿼리 메소드이고, 진짜 entity 전체를 조회함
     Optional<Member> findByNickName(String nickName);
 
+    // 회원 목록 보기 메소드
+    // 인터페이스 기반 Projection 이고, 일부 필드만 조회
     List<MemberListInfo> findAllBy();
 }

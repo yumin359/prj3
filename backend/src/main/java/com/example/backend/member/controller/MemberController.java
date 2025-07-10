@@ -18,6 +18,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // Board랑 비교해서 다시 보기
     @GetMapping(params = "email")
     public MemberDto getMember(String email) {
         return memberService.get(email);

@@ -73,10 +73,12 @@ public class MemberService {
         return true;
     }
 
+    // 회원 목록 보기 Read(list)
     public List<MemberListInfo> list() {
         return memberRepository.findAllBy();
     }
 
+    // 회원 정보 보기 Read(one)
     public MemberDto get(String email) {
         Member db = memberRepository.findById(email).get();
         MemberDto memberDto = new MemberDto();

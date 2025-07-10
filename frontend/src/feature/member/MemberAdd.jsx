@@ -72,6 +72,10 @@ export function MemberAdd() {
               // type="text" 기본값이라 지워서 씀
               value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
+              // trim()은 앞 뒤 공백만 막아주는 것으로 쓰다보면 순서대로 쓰니까
+              // 스페이스바가 눌리고 바로 사라짐 -> 즉 공백이 안 생기는 것처럼 보이느데
+              // 다 쓰고 중간으로 와서 스페이스바 누르면 눌림
+              // 이것도 막고 싶으면 replace(/\s/g, "") 를 써주면 된대용.
             />
           </FormGroup>
         </div>

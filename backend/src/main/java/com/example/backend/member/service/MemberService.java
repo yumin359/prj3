@@ -30,6 +30,11 @@ public class MemberService {
         }
     }
 
+    // 백엔드에서 trim()은 앞 뒤 공백만 확인하고, 중간 공백을 허용함
+    // 그래서 그것도 없앨거면 contains나 matches가 필요
+    // 근데 이 프로젝트에선 프론트에서도 trim()써서 입력 막아줘서
+    // trim()만 해줘도 괜찮음이 아니라
+    // trim()은 걍 앞 뒤 공백만 막아주는 거임 둘 다.
     private boolean validate(MemberForm memberForm) {
         // 이미 있는 email 인지
         Optional<Member> db1 = memberRepository.findById(memberForm.getEmail());

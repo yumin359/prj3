@@ -21,7 +21,8 @@ public class BoardController {
     private final BoardService boardService;
 
     // <?> : 리턴 타입 안 정해져 있어서 이렇게 씀
-    // member랑 비교해서 다시 보기
+    // 이메일은 특수 기호 등 뭐가 많은 문자열 이라서 위처럼 보내는 걸 추천
+    // board edit 는 숫자만 보내느 거라서 경로로 보냈던 것!!
     @PutMapping("{id}")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
                                          @RequestBody BoardDto boardDto) {
@@ -44,7 +45,6 @@ public class BoardController {
         }
     }
 
-    // member랑 비교해서 다시 보기
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable Integer id) {
         // 게시물 삭제 응답 보내기
@@ -57,7 +57,6 @@ public class BoardController {
         ));
     }
 
-    // member랑 비교해서 다시 보기
     @GetMapping("{id}")
     public BoardDto getBoardById(@PathVariable Integer id) {
         // 게시물 하나 보기

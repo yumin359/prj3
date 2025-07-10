@@ -18,7 +18,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // Board랑 비교해서 다시 보기
+    // 이메일은 특수 기호 등 뭐가 많은 문자열 이라서 위처럼 보내는 걸 추천
+    // board edit 는 숫자만 보내느 거라서 경로로 보냈던 것!!
     @GetMapping(params = "email")
     public MemberDto getMember(String email) {
         return memberService.get(email);

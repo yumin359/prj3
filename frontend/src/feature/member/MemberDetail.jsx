@@ -21,6 +21,10 @@ export function MemberDetail() {
   useEffect(() => {
     axios
       .get(`api/member?email=${params.get("email")}`)
+      // .get(`api/member/{params.get("email")}`)
+      // 이렇게 경로로 보내도 되지만 얘는 이메일을 보내는 거라
+      // 특수 기호 등 뭐가 많은 문자열 이라서 위처럼 보내는 걸 추천
+      // board edit 는 숫자만 보내느 거라서 경로로 보냈던 것!!
       .then((res) => {
         console.log("good");
         setMember(res.data);

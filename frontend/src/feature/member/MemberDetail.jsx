@@ -4,6 +4,7 @@ import {
   FormControl,
   FormGroup,
   FormLabel,
+  Modal,
   Row,
   Spinner,
 } from "react-bootstrap";
@@ -14,8 +15,10 @@ import { useParams, useSearchParams } from "react-router";
 export function MemberDetail() {
   // 회원 정보는 수정, 삭제에 따라 바뀔 수 있으므로 state
   const [member, setMember] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
+  const [password, setPassword] = useState("");
+
   // 쿼리스트링을 통해 경로를 요청하므로 useSearchParams
-  // Board랑 비교해서 다시 보기
   const [params] = useSearchParams();
 
   useEffect(() => {
@@ -36,6 +39,23 @@ export function MemberDetail() {
         console.log("always");
       });
   }, []);
+
+  function handleDeleteButtonClick() {
+    // 원래 delete는 ㅁㅁ
+    axios
+      .delete("/api/member", {
+        data: { email: member.email, password: password },
+      })
+      .then((res) => {
+        console.log("good");
+      })
+      .catch((err) => {
+        console.log("bad");
+      })
+      .finally(() => {
+        console.log("always");
+      });
+  }
 
   if (!member) {
     return <Spinner />;
@@ -64,12 +84,45 @@ export function MemberDetail() {
           </FormGroup>
         </div>
         <div>
-          <Button variant="outline-danger" size="sm" className="me-2">
+          <Button
+            variant="outline-danger"
+            size="sm"
+            className="me-2"
+            onClick={() => setModalShow(true)}
+          >
             회원 탈퇴
           </Button>
           <Button variant="outline-info">수정</Button>
         </div>
       </Col>
+
+      {/* 삭제 확인 모달 */}
+      <Modal show={modalShow} onHide={() => setModalShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>회원 삭제 확인</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <FormGroup controlId="password1">
+            <FormLabel>암호</FormLabel>
+            <FormControl
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </FormGroup>
+          {/*탈퇴하시겠습니까?*/}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-dark" onClick={() => setModalShow(false)}>
+            {/* 모달이 닫힘 */}
+            취소
+          </Button>
+          <Button variant="danger" onClick={handleDeleteButtonClick}>
+            {/* 위의 메소드 실행되어 최종 탈퇴됨 */}
+            탈퇴
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Row>
   );
 }

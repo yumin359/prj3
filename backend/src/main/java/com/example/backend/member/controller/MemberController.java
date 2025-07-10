@@ -18,6 +18,25 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody MemberForm memberForm) {
+        // 얘도 저장폼따로 만들어서 써도 됨
+        try {
+            memberService.update(memberForm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            return ResponseEntity.status(403).body(
+                    Map.of("message",
+                            Map.of("type", "error",
+                                    "text", message)));
+        }
+        return ResponseEntity.ok().body(
+                Map.of("message",
+                        Map.of("type", "success",
+                                "text", "회원 정보가 수정되었습니다.")));
+    }
+
     @DeleteMapping
     public ResponseEntity<?> deleteMember(@RequestBody MemberForm memberForm) {
         // memberdeleteform 따로 만들어서 써도 됨

@@ -14,7 +14,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    // 회원 가입
+    // 회원 가입 Create
     public void add(MemberForm memberForm) {
         Member member = new Member();
         member.setEmail(memberForm.getEmail());

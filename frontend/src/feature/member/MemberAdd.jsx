@@ -10,6 +10,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export function MemberAdd() {
+  // 넘겨야하는 값들(email, PW, nickName, info)은 상태로
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickName, setNickName] = useState("");

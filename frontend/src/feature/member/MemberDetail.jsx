@@ -10,7 +10,8 @@ import {
 } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useSearchParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
+import { toast } from "react-toastify";
 
 export function MemberDetail() {
   // 회원 정보는 수정, 삭제에 따라 바뀔 수 있으므로 state
@@ -20,6 +21,8 @@ export function MemberDetail() {
 
   // 쿼리스트링을 통해 경로를 요청하므로 useSearchParams
   const [params] = useSearchParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -48,12 +51,19 @@ export function MemberDetail() {
       })
       .then((res) => {
         console.log("good");
+        const message = res.data.message;
+        toast(message.text, { type: message.type });
+        navigate("/");
       })
       .catch((err) => {
         console.log("bad");
+        const message = err.response.data.message;
+        toast(message.text, { type: message.type });
       })
       .finally(() => {
         console.log("always");
+        setModalShow(false);
+        setPassword("");
       });
   }
 

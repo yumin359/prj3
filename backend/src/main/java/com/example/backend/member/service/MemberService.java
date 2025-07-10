@@ -20,6 +20,15 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    public void delete(MemberForm memberForm) {
+        Member db = memberRepository.findById(memberForm.getEmail()).get();
+        if (db.getPassword().equals(memberForm.getPassword())) {
+            memberRepository.delete(db);
+        } else {
+            throw new RuntimeException("암호가 일치하지 않습니다.");
+        }
+    }
+
     // 회원 가입 Create
     public void add(MemberForm memberForm) {
 

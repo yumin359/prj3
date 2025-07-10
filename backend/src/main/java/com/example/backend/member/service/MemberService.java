@@ -65,7 +65,7 @@ public class MemberService {
         }
         // 형식에 맞는지
         String email = memberForm.getEmail();
-        if (!Pattern.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}", email)) {
+        if (!Pattern.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", email)) {
             throw new RuntimeException("이메일 형식에 맞지 않습니다.");
         }
         // password 있는지

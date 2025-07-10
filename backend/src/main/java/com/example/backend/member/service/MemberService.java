@@ -52,7 +52,9 @@ public class MemberService {
             throw new RuntimeException("이메일 형식에 맞지 않습니다.");
         }
         // password 있는지
-        if (memberForm.getPassword().trim().isBlank()) { // trim(없으면 공백 허가?) 입력 안하심 강사님
+        if (memberForm.getPassword().trim().isBlank()) {
+            // trim(없으면 공백 허가?) 입력 안하심 강사님
+            // 화면 에서 스페이스바 안 눌리게 함
             throw new RuntimeException("패스워드를 입력해야 합니다.");
         }
         // nickName 있는지

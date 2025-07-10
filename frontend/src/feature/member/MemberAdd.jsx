@@ -57,9 +57,9 @@ export function MemberAdd() {
           <FormGroup className="mb-3" controlId="email1">
             <FormLabel>이메일</FormLabel>
             <FormControl
-              type="email"
+              // type="text" 기본값이라 지워서 씀
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.trim())}
             />
           </FormGroup>
         </div>
@@ -70,7 +70,7 @@ export function MemberAdd() {
             <FormControl
               type="text"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value.trim())}
             />
           </FormGroup>
         </div>
@@ -86,9 +86,8 @@ export function MemberAdd() {
           <FormGroup className="mb-3" controlId="nickName1">
             <FormLabel>별명</FormLabel>
             <FormControl
-              type="text"
               value={nickName}
-              onChange={(e) => setNickName(e.target.value)}
+              onChange={(e) => setNickName(e.target.value.trim())}
             />
           </FormGroup>
         </div>

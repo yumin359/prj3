@@ -25,6 +25,7 @@ export function MemberEdit() {
   useEffect(() => {
     axios
       .get(`/api/member?email=${params.get("email")}`)
+      // 얘네는 요청 경로로, 실제 브라우저 경로(url)에 영향을 미치지 않음
       .then((res) => {
         console.log("good");
         setMember(res.data);

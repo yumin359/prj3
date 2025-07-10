@@ -25,6 +25,7 @@ export function AppNavBar() {
               <Nav.Link as={NavLink} to="/member/list">
                 회원 목록
               </Nav.Link>
+              {/* Link로 이동하면 브라우저 url을 변경함 */}
             </Nav>
           </Navbar.Collapse>
         </Container>

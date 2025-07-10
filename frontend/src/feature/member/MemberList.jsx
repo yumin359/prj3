@@ -12,6 +12,8 @@ export function MemberList() {
   useEffect(() => {
     axios
       .get("/api/member/list")
+      // /api 서버(실제 요청 서버 주소는 vite.config에 있음)로 요청을 보내는 거
+      // 얘네는 요청 경로로, 실제 브라우저 경로(url)에 영향을 미치지 않음
       .then((res) => {
         console.log("good");
         setMemberList(res.data);
@@ -48,6 +50,7 @@ export function MemberList() {
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate(`/member?email=${member.email}`)}
                 >
+                  {/* navigate나 Link 로 이동하면 브라우저 url이 변경됨 */}
                   {/*회원 정보 보기 경로는 쿼리스트링을 이용함*/}
                   <td>{member.email}</td>
                   <td>{member.nickName}</td>

@@ -26,6 +26,7 @@ export function MemberDetail() {
 
   useEffect(() => {
     axios
+      // 얘네는 요청 경로로, 실제 브라우저 경로(url)에 영향을 미치지 않음
       .get(`api/member?email=${params.get("email")}`)
       // .get(`api/member/{params.get("email")}`)
       // 이렇게 경로로 보내도 되지만 얘는 이메일을 보내는 거라
@@ -44,11 +45,15 @@ export function MemberDetail() {
   }, []);
 
   function handleDeleteButtonClick() {
-    // 원래 delete는 ㅁㅁ
+    // 보통 delete는 경로로 데이터 보내는데 객체(본문, body)로 보낸 거
     axios
       .delete("/api/member", {
+        // 얘네는 요청 경로로, 실제 브라우저 경로(url)에 영향을 미치지 않음
         data: { email: member.email, password: password },
       })
+      // axios.delete("/api/member?email=${member.email}&password=${password}")
+      // 이거랑 같은데 이러면 URL에 고대로 나옴 그래서 위에처럼 보냄
+      // 그리고 당연하지만 주석처럼 보내면 backend 코드도 수정해야함
       .then((res) => {
         console.log("good");
         const message = res.data.message;
@@ -116,6 +121,7 @@ export function MemberDetail() {
             variant="outline-info"
             onClick={() => navigate(`/member/edit?email=${member.email}`)}
           >
+            {/* 얘도 navigate로 보내서 브라우저 url이 변경된 거 */}
             수정
           </Button>
         </div>

@@ -22,6 +22,7 @@ function App() {
           <Route path="/member/list" element={<MemberList />} />
           <Route path="/member" element={<MemberDetail />} />
           <Route path="/member/edit" element={<MemberEdit />} />
+          {/* 여기에 쓴 경로는 실제 브라우저에 보이는 url */}
         </Route>
       </Routes>
     </BrowserRouter>

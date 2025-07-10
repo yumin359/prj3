@@ -20,6 +20,7 @@ export function MemberDetail() {
       .get(`api/member?email=${params.get("email")}`)
       .then((res) => {
         console.log("good");
+        setMember(res.data);
       })
       .catch((err) => {
         console.log("bad");

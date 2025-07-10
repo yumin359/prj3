@@ -16,7 +16,7 @@ public class Member {
     private String email;
 
     private String password;
-    private String nickname;
+    private String nickName;
     private String info;
 
     @Column(insertable = false, updatable = false)

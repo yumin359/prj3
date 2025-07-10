@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -23,7 +24,7 @@ public class MemberService {
             Member member = new Member();
             member.setEmail(memberForm.getEmail());
             member.setPassword(memberForm.getPassword());
-            member.setNickname(memberForm.getNickName());
+            member.setNickName(memberForm.getNickName());
             member.setInfo(memberForm.getInfo());
             memberRepository.save(member);
         }
@@ -31,7 +32,15 @@ public class MemberService {
 
     private boolean validate(MemberForm memberForm) {
         // 이미 있는 email 인지
+        Optional<Member> db1 = memberRepository.findById(memberForm.getEmail());
+        if (db1.isPresent()) {
+            throw new RuntimeException("이미 가입된 이메일입니다.");
+        }
         // 이미 있는 nickName 인지
+        Optional<Member> db2 = memberRepository.findByNickName(memberForm.getNickName());
+        if (db2.isPresent()) {
+            throw new RuntimeException("이미 사용 중인 별명입니다.");
+        }
 
         // email 있는지
         if (memberForm.getEmail().trim().isBlank()) {

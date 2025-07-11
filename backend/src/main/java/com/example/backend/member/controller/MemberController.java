@@ -40,8 +40,14 @@ public class MemberController {
     }
 
     @PutMapping("changePassword")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordForm data) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordForm data,
+                                            Authentication authentication) {
 //        System.out.println("data = " + data);
+        // 암호 변경 본인 것만 가능
+        if (!authentication.getName().equals(data.getEmail())) {
+            return ResponseEntity.status(403).build();
+        }
         try {
             memberService.changePassword(data);
         } catch (Exception e) {
@@ -59,8 +65,15 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody MemberForm memberForm) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> update(@RequestBody MemberForm memberForm,
+                                    Authentication authentication) {
         // 얘도 저장폼따로 만들어서 써도 됨
+        // 회원 정보 수정 본인 것만 가능
+        if (!authentication.getName().equals(memberForm.getEmail())) {
+            return ResponseEntity.status(403).build();
+        }
+
         try {
             memberService.update(memberForm);
         } catch (Exception e) {
@@ -78,9 +91,17 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteMember(@RequestBody MemberForm memberForm) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> deleteMember(@RequestBody MemberForm memberForm,
+                                          Authentication authentication) {
         // memberdeleteform 따로 만들어서 써도 됨
         // 회사라면 만들었을 듯
+
+        // 회원 정보 삭제 본인 것만 가능
+        if (!authentication.getName().equals(memberForm.getEmail())) {
+            return ResponseEntity.status(403).build();
+        }
+
         try {
             memberService.delete(memberForm);
         } catch (Exception e) {

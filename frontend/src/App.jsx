@@ -8,6 +8,7 @@ import { MemberAdd } from "./feature/member/MemberAdd.jsx";
 import { MemberList } from "./feature/member/MemberList.jsx";
 import { MemberDetail } from "./feature/member/MemberDetail.jsx";
 import { MemberEdit } from "./feature/member/MemberEdit.jsx";
+import { MemberLogin } from "./feature/member/MemberLogin.jsx";
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
           <Route path="board/add" element={<BoardAdd />} />
           <Route path="board/:id" element={<BoardDetail />} />
           <Route path="board/edit" element={<BoardEdit />} />
-          <Route path="/signup" element={<MemberAdd />} />
-          <Route path="/member/list" element={<MemberList />} />
-          <Route path="/member" element={<MemberDetail />} />
-          <Route path="/member/edit" element={<MemberEdit />} />
+          <Route path="signup" element={<MemberAdd />} />
+          <Route path="login" element={<MemberLogin />} />
+          <Route path="member/list" element={<MemberList />} />
+          <Route path="member" element={<MemberDetail />} />
+          <Route path="member/edit" element={<MemberEdit />} />
           {/* 여기에 쓴 경로는 실제 브라우저에 보이는 url */}
         </Route>
       </Routes>

@@ -43,7 +43,7 @@ function App() {
   function handleButton5Click() {
     // 로그인 한 상태로 버튼 누르면 200
     // 로그인 안 한 상태로 버튼 누르면 401
-    
+
     // localStorage에서 token 얻기
     const token = localStorage.getItem("token");
 
@@ -61,9 +61,53 @@ function App() {
     }
   }
 
+  function handleButton8Click() {
+    axios.get("/api/learn/jwt/sub8").then((res) => {
+      const token = res.data;
+      localStorage.setItem("token", token);
+    });
+  }
+
+  function handleButton7Click() {
+    axios.get("/api/learn/jwt/sub7").then((res) => {
+      const token = res.data;
+      localStorage.setItem("token", token);
+    });
+  }
+
+  function handleButton6Click() {
+    axios.get("/api/learn/jwt/sub6").then((res) => {
+      const token = res.data;
+      localStorage.setItem("token", token);
+    });
+  }
+
+  function handleButton10Click() {
+    axios.get("/api/learn/jwt/sub10", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  }
+
+  function handleButton9Click() {
+    axios.get("/api/learn/jwt/sub9", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+  }
+
   return (
     <div>
       <h3>jwt 로그인 연습</h3>
+      <button onClick={handleButton10Click}>
+        10. manager만 허용 경로로 요청
+      </button>
+      <button onClick={handleButton9Click}>9. admin만 허용 경로로 요청</button>
+      <button onClick={handleButton8Click}>8. manager 유저 로그인</button>
+      <button onClick={handleButton7Click}>7. admin 유저 로그인</button>
+      <button onClick={handleButton6Click}>6. 일반 유저 로그인</button>
       <button onClick={handleButton5Click}>
         5. isAuthenticated() 설정된 request handler method에 요청
       </button>

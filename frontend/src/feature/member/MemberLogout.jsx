@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
+// 서버에서 하는 일 없음
 export function MemberLogout() {
   const navigate = useNavigate();
   useEffect(() => {

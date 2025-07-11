@@ -1,6 +1,7 @@
 package com.example.backend.learn.jwt;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -16,6 +17,15 @@ import java.util.Map;
 public class LearnJwtController {
 
     private final JwtEncoder jwtEncoder;
+
+    @GetMapping("sub3")
+    // 유효한 토큰이 있는 요청만 실행 가능 아니면 401 응답
+    // @PreAuthorize 는 configuration 에 @EnableMethodSecurity 이 어노테이션이 있어야 사용 가능
+    @PreAuthorize("isAuthenticated()")
+    public String sub3(Authentication authentication) {
+        System.out.println("LearnJwtController.sub3");
+        return null;
+    }
 
     // Authentication 객체를 request handler method 파라미터에 두면
     // jwt가 유효하면 name 속성이 subject(jwt)인 Authentication 객체를 대입

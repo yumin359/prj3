@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export function MemberLogin() {
   const [email, setEmail] = useState("");
@@ -22,8 +23,23 @@ export function MemberLogin() {
         email: email,
         password: password,
       })
-      .then((res) => {})
-      .catch((err) => {})
+      .then((res) => {
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+
+        const message = res.data.message;
+        if (message) {
+          toast(message.text, { type: message.type });
+        }
+
+        navigate("/");
+      })
+      .catch((err) => {
+        const message = err.response.data.message;
+        if (message) {
+          toast(message.text, { type: message.type });
+        }
+      })
       .finally(() => {});
   }
 
@@ -32,11 +48,15 @@ export function MemberLogin() {
       <Col xs={12} md={8} lg={6}></Col>
       <h2 className="mb-4">로그인</h2>
       <FormGroup>
-        <FormLabel controlId="email1">이메일</FormLabel>
+        <FormLabel className="mb-3" controlId="email1">
+          이메일
+        </FormLabel>
         <FormControl value={email} onChange={(e) => setEmail(e.target.value)} />
       </FormGroup>
       <FormGroup>
-        <FormLabel controlId="password1">암호</FormLabel>
+        <FormLabel className="mb-3" controlId="password1">
+          암호
+        </FormLabel>
         <FormControl
           type="password"
           value={password}

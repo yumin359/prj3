@@ -20,22 +20,32 @@ export function AppNavBar() {
               <Nav.Link as={NavLink} to="/">
                 Home
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/board/add">
-                새글
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/signup">
-                가입
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/member/list">
-                회원 목록
-              </Nav.Link>
+              {user !== null && (
+                <Nav.Link as={NavLink} to="/board/add">
+                  새글
+                </Nav.Link>
+              )}
+              {user === null && (
+                <Nav.Link as={NavLink} to="/signup">
+                  가입
+                </Nav.Link>
+              )}
+              {user !== null && (
+                <Nav.Link as={NavLink} to="/member/list">
+                  회원 목록
+                </Nav.Link>
+              )}
               {/* Link로 이동하면 브라우저 url을 변경함 */}
-              <Nav.Link as={NavLink} to="/login">
-                로그인
-              </Nav.Link>
-              <Nav.Link as={NavLink} to="/logout">
-                로그아웃
-              </Nav.Link>
+              {user === null && (
+                <Nav.Link as={NavLink} to="/login">
+                  로그인
+                </Nav.Link>
+              )}
+              {user !== null && (
+                <Nav.Link as={NavLink} to="/logout">
+                  로그아웃
+                </Nav.Link>
+              )}
               {user !== null && (
                 <Nav.Link as={NavLink} to={`/member?email=${user.email}`}>
                   {user.nickName}

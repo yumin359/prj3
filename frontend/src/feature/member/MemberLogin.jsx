@@ -17,6 +17,7 @@ export function MemberLogin() {
   const [password, setPassword] = useState("");
   // step2. use Context
   const { login } = useContext(AuthenticationContext);
+  // -> AuthenticationContextProvider 컴포넌트 안에 있는 login 메소드를 꺼내오겠다
   const navigate = useNavigate();
 
   function handleLogInButtonClick() {
@@ -27,6 +28,7 @@ export function MemberLogin() {
       })
       .then((res) => {
         const token = res.data.token;
+        // localStorage.setItem("token", token);
         login(token);
 
         const message = res.data.message;

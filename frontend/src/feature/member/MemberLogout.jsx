@@ -10,6 +10,7 @@ export function MemberLogout() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // localStorage.removeItem("token");
     logout();
 
     toast("로그아웃 되었습니다.", { type: "success" });

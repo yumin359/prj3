@@ -24,8 +24,12 @@ axios.interceptors.request.use((config) => {
 
   return config;
 });
+// 이렇게 하면 axios 요청마다 일일이 Authorization 헤더 안 넣어도 됨
+// 어렵당..
 
 // step1. create context
+// AuthenticationContext 라는 context 객체 생성
+// 얘는 단순히 전역 공유할 공간(통로)을 만든 것
 const AuthenticationContext = createContext(null);
 
 export function AuthenticationContextProvider({ children }) {
@@ -71,6 +75,10 @@ export function AuthenticationContextProvider({ children }) {
 
   // step3. provide context
   return (
+    // AuthenticationContextProvider 컴포넌트 내부에서
+    // 여러 메소드들을 만들고
+    // AuthenticationContext(context 객체)라는 넘어갈 수 있는 통로를 통해
+    // AuthenticationContext가 값을 보내줌
     <AuthenticationContext
       value={{
         user: user,

@@ -18,6 +18,7 @@ export function MemberEdit() {
   const [member, setMember] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const [password, setPassword] = useState("");
+  // 암호 변경시 필요한 상태들
   const [passwordModalShow, setPasswordModalShow] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword1, setNewPassword1] = useState("");
@@ -71,6 +72,7 @@ export function MemberEdit() {
 
   // 암호 변경 버튼 활성화 여부
   let changePasswordButtonDisable = false;
+  // 바뀐 암호 확인
   let passwordConfirm = true;
 
   if (oldPassword === "") {
@@ -87,6 +89,7 @@ export function MemberEdit() {
     passwordConfirm = false;
   }
 
+  // 암호 변경 모달에서 변경 눌렀을 때 요청
   function handleChangePasswordButtonClick() {
     axios
       .put("/api/member/changePassword", {
@@ -207,10 +210,10 @@ export function MemberEdit() {
             저장
           </Button>
         </Modal.Footer>
-
-        {/* 암호 변경 모달 */}
-        {/*모달로 했지만 다른 페이지로 빼도 괜찮을 것 같아여*/}
       </Modal>
+
+      {/* 암호 변경 모달 */}
+      {/*모달로 했지만 다른 페이지로 빼도 괜찮을 것 같아여*/}
       <Modal
         show={passwordModalShow}
         onHide={() => setPasswordModalShow(false)}
@@ -262,7 +265,7 @@ export function MemberEdit() {
             variant="primary"
             onClick={handleChangePasswordButtonClick}
           >
-            {/* 위의 메소드 실행되어 최종 탈퇴됨 */}
+            {/* 위의 메소드 실행되어 암호 변경됨 */}
             변경
           </Button>
         </Modal.Footer>

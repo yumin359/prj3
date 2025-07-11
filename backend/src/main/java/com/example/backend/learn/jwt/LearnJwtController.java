@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
 import java.util.Map;
 
 @RestController
@@ -25,11 +26,37 @@ public class LearnJwtController {
 
         // jwt 토큰 완성
         // sign어떻게.정보(claim,payload).sign
+
+        // claim/payload 에 민감한 정보 담지 않기(최소한의 정보만 담기, 누구나 볼 수 있기 때문)
+
+        // 꼭 작성해야 하는 claims들 (4개)
+        // 어디서 발행 했는지 Issuer (iss)
+        // 누구를 위한 토큰인지 Subject (sub)
+        // 언제 만들었는지 Issued At (iat)
+        // 이 토큰이 언제까지 유효한지 Expiration Time (exp)
+
+        // 우리가 필요한 것 (1개)
+        // 권한 Scope (scp)
+        // 따라서 우리는 다섯개의 claim이 필요함
+
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
-                .claim("email", data.get("email"))
-                .claim("password", data.get("password"))
-                .claim("roles", "")
-                .claim("nickname", "")
+                // 각각 같음
+//                .claim("sub", data.get("email"))
+                .subject(data.get("email"))
+
+//                .claim("iss", "self")
+                .issuer("self")
+
+//                .claim("iat", Instant.now())
+                .issuedAt(Instant.now())
+
+//                .claim("exp", Instant.now().plusSeconds(60 * 60 * 24 * 365))
+                .expiresAt(Instant.now().plusSeconds(60 * 60 * 24 * 365))
+
+                .claim("scp", "admin user manager") // space 로 구분
+
+//                .claim("password", data.get("password")) // 이런거 담으면 안 됨
+//                .claim("nickname", "") // 필요 없는 건 빼기
                 .build();
 
         // jwt 응답

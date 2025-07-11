@@ -109,6 +109,8 @@ public class MemberController {
         } else {
             return ResponseEntity.status(403).build();
         }
+        // 로그인한 사용자는 자기 정보만 볼 수 있음.
+        // 로그아웃 사용자는 아무 회원 정보를 못 봄
     }
 
     @GetMapping("list")

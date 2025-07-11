@@ -4,6 +4,8 @@ import com.example.backend.member.dto.*;
 import com.example.backend.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -99,8 +101,14 @@ public class MemberController {
     // 이메일은 특수 기호 등 뭐가 많은 문자열 이라서 위처럼 보내는 걸 추천
     // board edit 는 숫자만 보내느 거라서 경로로 보냈던 것!!
     @GetMapping(params = "email")
-    public MemberDto getMember(String email) {
-        return memberService.get(email);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> getMember(String email,
+                                       Authentication authentication) {
+        if (authentication.getName().equals(email)) {
+            return ResponseEntity.ok().body(memberService.get(email));
+        } else {
+            return ResponseEntity.status(403).build();
+        }
     }
 
     @GetMapping("list")

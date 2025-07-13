@@ -72,6 +72,7 @@ export function AuthenticationContextProvider({ children }) {
 
   // hasAccess
   // isAdmin
+  // 정리 하는중
 
   // step3. provide context
   return (

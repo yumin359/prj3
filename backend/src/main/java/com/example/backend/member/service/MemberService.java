@@ -95,8 +95,7 @@ public class MemberService {
         memberDto.setInsertedAt(db.getInsertedAt());
         return memberDto;
     }
-
-    // TODO: 회원정보 삭제후 로그아웃 되도록
+    
     public void delete(MemberForm memberForm) {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
         // 암호를 암호화해서 저장했으므로

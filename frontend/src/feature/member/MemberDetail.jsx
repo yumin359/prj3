@@ -8,10 +8,11 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { toast } from "react-toastify";
+import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
 
 export function MemberDetail() {
   // 회원 정보는 수정, 삭제에 따라 바뀔 수 있으므로 state
@@ -19,6 +20,8 @@ export function MemberDetail() {
   const [modalShow, setModalShow] = useState(false);
   const [password, setPassword] = useState("");
 
+  // 로그아웃 컨텍스트 가져오기
+  const { logout } = useContext(AuthenticationContext);
   // 쿼리스트링을 통해 경로를 요청하므로 useSearchParams
   const [params] = useSearchParams();
 
@@ -59,6 +62,7 @@ export function MemberDetail() {
         const message = res.data.message;
         toast(message.text, { type: message.type });
         navigate("/");
+        logout(); // 탈퇴하면 로그아웃 되도록
       })
       .catch((err) => {
         console.log("bad");

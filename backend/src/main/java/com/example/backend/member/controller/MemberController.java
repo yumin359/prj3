@@ -135,6 +135,8 @@ public class MemberController {
     }
 
     @GetMapping("list")
+    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    // 즉 admin 인 trump로 로그인 됐을 때만 회원목록 볼 수 있음
     public List<MemberListInfo> list() {
         return memberService.list();
     }

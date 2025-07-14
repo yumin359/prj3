@@ -31,7 +31,7 @@ public class BoardService {
         Board board = new Board();
         board.setTitle(dto.getTitle());
         board.setContent(dto.getContent());
-        // 작성자 본인이 들어가도록
+        // 로그인 한 사용자의 email이 게시물 작성자에 들어감
         board.setAuthor(authentication.getName());
 
         // repository에 save 실행

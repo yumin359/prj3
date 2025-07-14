@@ -23,16 +23,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtEncoder jwtEncoder;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public void delete(MemberForm memberForm) {
-        Member db = memberRepository.findById(memberForm.getEmail()).get();
-        if (db.getPassword().equals(memberForm.getPassword())) {
-            memberRepository.delete(db);
-        } else {
-            throw new RuntimeException("암호가 일치하지 않습니다.");
-        }
-    }
+    private final BCryptPasswordEncoder passwordEncoder;
 
     // 회원 가입 Create
     public void add(MemberForm memberForm) {
@@ -41,7 +32,7 @@ public class MemberService {
             Member member = new Member();
             member.setEmail(memberForm.getEmail());
 //            member.setPassword(memberForm.getPassword());
-            member.setPassword(bCryptPasswordEncoder.encode(memberForm.getPassword()));
+            member.setPassword(passwordEncoder.encode(memberForm.getPassword()));
             // 이제 이러면 테이블에 암호화 되어 저장됨. 복호화 불가능해서 암호 잊어버리면 못 찾음
             member.setNickName(memberForm.getNickName());
             member.setInfo(memberForm.getInfo());
@@ -105,6 +96,19 @@ public class MemberService {
         return memberDto;
     }
 
+    // TODO: 회원정보 삭제후 로그아웃 되도록
+    public void delete(MemberForm memberForm) {
+        Member db = memberRepository.findById(memberForm.getEmail()).get();
+        // 암호를 암호화해서 저장했으므로
+        // 암호화된 암호랑 평문 암호랑 같은지 확인해야함
+//        if (db.getPassword().equals(memberForm.getPassword())) {
+        if (passwordEncoder.matches(memberForm.getPassword(), db.getPassword())) {
+            memberRepository.delete(db);
+        } else {
+            throw new RuntimeException("암호가 일치하지 않습니다.");
+        }
+    }
+
     public void update(MemberForm memberForm) {
         // 조회
         Member db = memberRepository.findById(memberForm.getEmail()).get();
@@ -132,12 +136,16 @@ public class MemberService {
         }
     }
 
+    // 로그인 부분
     public String getToken(MemberLoginForm loginForm) {
         // 해당 이메일의 데이터 있는지
         Optional<Member> db = memberRepository.findById(loginForm.getEmail());
         if (db.isPresent()) {
             // 있으면 패스워드 맞는지
-            if (db.get().getPassword().equals(loginForm.getPassword())) {
+//            if (db.get().getPassword().equals(loginForm.getPassword())) {
+//            if (bCryptPasswordEncoder.matches(loginForm.getPassword(), db.get().getPassword())) {
+            // 넘 길어서 shift + f6으로 이름 바꿈
+            if (passwordEncoder.matches(loginForm.getPassword(), db.get().getPassword())) {
                 // 둘 다 맞으면 token 만들어서 리턴
                 JwtClaimsSet claims = JwtClaimsSet.builder()
                         .subject(loginForm.getEmail())

@@ -78,7 +78,7 @@ export function AuthenticationContextProvider({ children }) {
 
   // isAdmin
   function isAdmin() {
-    return user && user.scope.includes("admin");
+    return user && user.scope && user.scope.includes("admin");
   }
 
   // step3. provide context

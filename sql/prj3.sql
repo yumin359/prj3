@@ -57,3 +57,16 @@ FROM board;
 SELECT count(*)
 FROM board;
 # 1536 개 만들었ㄷ숨
+
+# 댓글 테이블
+CREATE TABLE comment
+(
+    id          INT AUTO_INCREMENT NOT NULL,
+    board_id    INT                NOT NULL,
+    author      VARCHAR(255)       NOT NULL,
+    comment     VARCHAR(2000)      NOT NULL,
+    inserted_at datetime           NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_comment PRIMARY KEY (id),
+    FOREIGN KEY (author) REFERENCES member (email),
+    FOREIGN KEY (board_id) REFERENCES board (id)
+);

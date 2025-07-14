@@ -10,9 +10,10 @@ import {
   FormLabel,
   Modal,
   Row,
-  Spinner
+  Spinner,
 } from "react-bootstrap";
 import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { CommentContainer } from "../comment/CommentContainer.jsx";
 
 export function BoardDetail() {
   // 게시물 하나는 바뀔 수 있으므로(삭제, 수정) state
@@ -118,7 +119,7 @@ export function BoardDetail() {
             />
           </FormGroup>
         </div>
-        {hasAccess(board.authorEmail) &&
+        {hasAccess(board.authorEmail) && (
           <div>
             <Button
               className="me-2"
@@ -136,7 +137,10 @@ export function BoardDetail() {
               수정
             </Button>
           </div>
-        }
+        )}
+
+        {/* 댓글 컴포넌트 */}
+        <CommentContainer boardId={board.id} />
       </Col>
 
       {/* 위의 삭제 버튼에 따라 모달이 열림, onHide는 X 버튼 누르면 실행될 거 쓰는 거 -> 모달 닫히게 함 */}

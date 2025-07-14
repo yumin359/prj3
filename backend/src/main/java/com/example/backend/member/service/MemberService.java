@@ -1,5 +1,6 @@
 package com.example.backend.member.service;
 
+import com.example.backend.board.repository.BoardRepository;
 import com.example.backend.member.dto.*;
 import com.example.backend.member.entity.Auth;
 import com.example.backend.member.entity.Member;
@@ -28,6 +29,7 @@ public class MemberService {
     private final JwtEncoder jwtEncoder;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthRepository authRepository;
+    private final BoardRepository boardRepository;
 
     // 회원 가입 Create
     public void add(MemberForm memberForm) {
@@ -107,6 +109,11 @@ public class MemberService {
         // 앞에가 입력값, 뒤에가 테이블에 저장된 값
 //        if (db.getPassword().equals(memberForm.getPassword())) {
         if (passwordEncoder.matches(memberForm.getPassword(), db.getPassword())) {
+            // 실제로 지우는 일은 거의 없음.
+            // 그래서 값들을 보이는 것만 지워지게 하거나
+            // 아니면 다른 컬럼에 옮겨두고 사용자들이 보는 거에는 지우는 것임
+            // 하지만 우리는 그냥 연습이기때문에 실제로 지움
+            boardRepository.deleteByAuthor(db);
             memberRepository.delete(db);
         } else {
             throw new RuntimeException("암호가 일치하지 않습니다.");

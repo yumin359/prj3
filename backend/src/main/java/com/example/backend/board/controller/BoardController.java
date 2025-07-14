@@ -49,9 +49,11 @@ public class BoardController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Integer id) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> deleteBoard(@PathVariable Integer id,
+                                         Authentication authentication) {
         // 게시물 삭제 응답 보내기
-        boardService.deleteById(id);
+        boardService.deleteById(id, authentication);
         return ResponseEntity.ok().body(Map.of(
                 "message", Map.of(
                         "type", "success",

@@ -1,21 +1,17 @@
 package com.example.backend.board.service;
 
 import com.example.backend.board.dto.BoardListDto;
-import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.entity.Board;
 import com.example.backend.board.dto.BoardDto;
 import com.example.backend.board.repository.BoardRepository;
 import com.example.backend.member.entity.Member;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -78,8 +74,18 @@ public class BoardService {
     }
 
     // 게시물 삭제 Delete
-    public void deleteById(Integer id) {
-        boardRepository.deleteById(id);
+    public void deleteById(Integer id, Authentication authentication) {
+        if (authentication == null) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
+        Board db = boardRepository.findById(id).get();
+
+        if (db.getAuthor().getEmail().equals(authentication.getName())) {
+            boardRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("권한이 없습니다.");
+        }
     }
 
     // 게시물 수정(갱신) Update

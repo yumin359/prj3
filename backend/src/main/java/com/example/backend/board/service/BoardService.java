@@ -1,5 +1,6 @@
 package com.example.backend.board.service;
 
+import com.example.backend.board.dto.BoardListDto;
 import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.entity.Board;
 import com.example.backend.board.dto.BoardDto;
@@ -58,8 +59,10 @@ public class BoardService {
     }
 
     // 게시물 목록 보기 Read(list)
-    public List<BoardListInfo> list() {
-        return boardRepository.findAllByOrderByIdDesc();
+//    public List<BoardListInfo> list() {
+    public List<BoardListDto> list() {
+//        return boardRepository.findAllByOrderByIdDesc();
+        return boardRepository.findAllBy();
     }
 
     // 게시물 하나 보기 Read(one)

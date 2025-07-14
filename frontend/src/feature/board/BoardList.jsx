@@ -30,6 +30,7 @@ export function BoardList() {
       });
   }, [searchParams]);
   // 즉 마운트 될 때도 실행되고, useSearchParams가 바뀔 때도 실행되고
+  // -> 서버로 전송 되는거
 
   // 게시물 하나 보기로 이동(navigate 활용)
   function handleTableRowClick(id) {

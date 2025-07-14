@@ -1,6 +1,8 @@
 package com.example.backend.board.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -8,6 +10,8 @@ import java.time.ZoneId;
 
 // 게시물 목록보기 dto 이거로 바꿈
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardListDto {
     private Integer id;
     private String title;

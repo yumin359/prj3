@@ -13,17 +13,19 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     // 게시물 목록 보기 projection 으로 받아옴
     List<BoardListInfo> findAllByOrderByIdDesc();
 
-    // JPQL 등 다른 거로 해도 됨
+    // naviteQuery로 하면 뭐할게 많아서
+    // JPQL로 하신대용
     // 게시물 목록 보기 쿼리
     @Query(value = """
-                SELECT b.id id,
-                       b.title title,
-                       b.inserted_at inserted_at,
-                       m.nick_name nick_name
-                FROM board b JOIN member m
-                    ON b.author = m.email
-                ORDER BY b.id DESC 
-            """, nativeQuery = true)
+                SELECT new com.example.backend.board.dto.BoardListDto(
+                            b.id,
+                            b.title,
+                            m.nickName,
+                            b.insertedAt)
+                FROM Board b JOIN Member m
+                        ON b.author.email = m.email
+                ORDER BY b.id DESC
+            """)
     List<BoardListDto> findAllBy();
 
     // 게시물 하나 보기 쿼리

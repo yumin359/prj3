@@ -1,11 +1,14 @@
 import { Col, Row, Spinner, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 export function BoardList() {
   // 게시물 목록들은 계속 바뀌는(삭제, 저장, 수정, 추가) 것이므로 state
   const [boardList, setBoardList] = useState(null);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // 코드로 경로 이동하기 위해 navigate 활용
   const navigate = useNavigate();
 
@@ -13,7 +16,7 @@ export function BoardList() {
   useEffect(() => {
     // 마운트 될 때(initial render 시) 실행되는 코드
     axios
-      .get("/api/board/list")
+      .get(`/api/board/list?${searchParams}`)
       .then((res) => {
         console.log("잘 될 때 코드");
         // 정상적으로 응답 데이터 받으면
@@ -25,7 +28,8 @@ export function BoardList() {
       .finally(() => {
         console.log("항상 실행 코드");
       });
-  }, []);
+  }, [searchParams]);
+  // 즉 마운트 될 때도 실행되고, useSearchParams가 바뀔 때도 실행되고
 
   // 게시물 하나 보기로 이동(navigate 활용)
   function handleTableRowClick(id) {

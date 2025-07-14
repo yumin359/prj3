@@ -23,6 +23,9 @@ public class BoardController {
 
     private final BoardService boardService;
 
+//    @PreAuthorize("isAuthenticated()")
+    // 로그인 한 사용자만 접근 가능 (익명 사용자 제외)
+
     // <?> : 리턴 타입 안 정해져 있어서 이렇게 씀
     // 이메일은 특수 기호 등 뭐가 많은 문자열 이라서 위처럼 보내는 걸 추천
     // board edit 는 숫자만 보내느 거라서 경로로 보냈던 것!!

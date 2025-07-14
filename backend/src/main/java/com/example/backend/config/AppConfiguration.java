@@ -51,7 +51,7 @@ public class AppConfiguration {
         return new NimbusJwtEncoder(jwks);
     }
 
-    // 이거 쓰면 암호를 암호화해서 저장 가능?
+    // 이거 쓰면 암호를 암호화해서 저장 가능
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

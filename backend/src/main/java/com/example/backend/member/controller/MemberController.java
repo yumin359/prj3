@@ -19,6 +19,10 @@ public class MemberController {
 
     private final MemberService memberService;
 
+//    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    // 로그인 한 사용자만 접근 가능 또는
+    // 특정 권한이 있는 사용자만 허용 -> scope이 admin인 사람만 접근 가능
+
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody MemberLoginForm loginForm) {
 //        System.out.println("loginForm = " + loginForm);

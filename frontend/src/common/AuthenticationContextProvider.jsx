@@ -71,6 +71,10 @@ export function AuthenticationContextProvider({ children }) {
   }
 
   // hasAccess
+  function hasAccess(email) {
+    return user && user.email === email;
+  }
+
   // isAdmin
   // 상관없나?
 
@@ -85,6 +89,7 @@ export function AuthenticationContextProvider({ children }) {
         user: user,
         login: login,
         logout: logout,
+        hasAccess: hasAccess,
       }}
     >
       {children}

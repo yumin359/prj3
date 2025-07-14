@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
@@ -10,14 +10,17 @@ import {
   FormLabel,
   Modal,
   Row,
-  Spinner,
+  Spinner
 } from "react-bootstrap";
+import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
 
 export function BoardDetail() {
   // 게시물 하나는 바뀔 수 있으므로(삭제, 수정) state
   const [board, setBoard] = useState(null);
   // 삭제를 바로 하지 않게 modal을 띄울거라 state
   const [modalShow, setModalShow] = useState(false);
+
+  const { hasAccess } = useContext(AuthenticationContext);
 
   // 게시물 하나보기는 /board/:id 즉 id 값만 바뀌는 경로이므로 useParams를 활용해서
   // 경로중에서 일부만 바뀌는 값 즉 id를 가져옴
@@ -115,23 +118,25 @@ export function BoardDetail() {
             />
           </FormGroup>
         </div>
-        <div>
-          <Button
-            className="me-2"
-            variant="outline-danger"
-            onClick={() => setModalShow(true)}
-          >
-            {/* 게시물 하나보기에서 삭제버튼 누르면 모달이 열리도록 state 변경 */}
-            삭제
-          </Button>
-          <Button
-            variant="outline-info"
-            onClick={() => navigate(`/board/edit?id=${board.id}`)}
-          >
-            {/* 게시물 하나보기에서 수정버튼 누르면 수정화면 경로로 이동하도록 navigate 활용 */}
-            수정
-          </Button>
-        </div>
+        {hasAccess(board.authorEmail) &&
+          <div>
+            <Button
+              className="me-2"
+              variant="outline-danger"
+              onClick={() => setModalShow(true)}
+            >
+              {/* 게시물 하나보기에서 삭제버튼 누르면 모달이 열리도록 state 변경 */}
+              삭제
+            </Button>
+            <Button
+              variant="outline-info"
+              onClick={() => navigate(`/board/edit?id=${board.id}`)}
+            >
+              {/* 게시물 하나보기에서 수정버튼 누르면 수정화면 경로로 이동하도록 navigate 활용 */}
+              수정
+            </Button>
+          </div>
+        }
       </Col>
 
       {/* 위의 삭제 버튼에 따라 모달이 열림, onHide는 X 버튼 누르면 실행될 거 쓰는 거 -> 모달 닫히게 함 */}

@@ -65,9 +65,11 @@ export function BoardList() {
         <Col>
           <Pagination>
             <Pagination.First
+              disabled={pageInfo.currentPageNumber === 1}
               onClick={() => handlePageNumberClick(1)}
             ></Pagination.First>
             <Pagination.Prev
+              disabled={pageInfo.leftPageNumber <= 1}
               onClick={() =>
                 handlePageNumberClick(pageInfo.leftPageNumber - 10)
               }
@@ -76,16 +78,19 @@ export function BoardList() {
               <Pagination.Item
                 key={pageNumber}
                 onClick={() => handlePageNumberClick(pageNumber)}
+                active={pageInfo.currentPageNumber === pageNumber}
               >
                 {pageNumber}
               </Pagination.Item>
             ))}
             <Pagination.Next
+              disabled={pageInfo.rightPageNumber >= pageInfo.totalPages}
               onClick={() =>
                 handlePageNumberClick(pageInfo.rightPageNumber + 1)
               }
             ></Pagination.Next>
             <Pagination.Last
+              disabled={pageInfo.currentPageNumber === pageInfo.totalPages}
               onClick={() => handlePageNumberClick(pageInfo.totalPages)}
             ></Pagination.Last>
           </Pagination>

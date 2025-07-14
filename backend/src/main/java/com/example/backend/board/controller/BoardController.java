@@ -27,13 +27,15 @@ public class BoardController {
     // 이메일은 특수 기호 등 뭐가 많은 문자열 이라서 위처럼 보내는 걸 추천
     // board edit 는 숫자만 보내느 거라서 경로로 보냈던 것!!
     @PutMapping("{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
-                                         @RequestBody BoardDto boardDto) {
+                                         @RequestBody BoardDto boardDto,
+                                         Authentication authentication) {
         // 값들이 유효한지 확인하는 메소드를 통해
         boolean result = boardService.validate(boardDto);
         if (result) {
             // 제대로 되었을 때 service에게 일 시키고
-            boardService.update(boardDto);
+            boardService.update(boardDto, authentication);
             // react에 보낼 응답
             return ResponseEntity.ok().body(Map.of(
                     "message", Map.of(

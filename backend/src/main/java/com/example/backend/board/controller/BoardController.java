@@ -5,6 +5,8 @@ import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,13 +72,15 @@ public class BoardController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<?> add(@RequestBody BoardDto dto) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> add(@RequestBody BoardDto dto,
+                                 Authentication authentication) {
         // 값들이 유효한지 확인하는 메소드를 통해
         boolean result = boardService.validate(dto);
 
         if (result) {
             // 제대로 되었을 때 service에게 일 시키고
-            boardService.add(dto);
+            boardService.add(dto, authentication);
             // react에 보낼 응답
             return ResponseEntity.ok().body(
                     Map.of("message",

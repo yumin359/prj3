@@ -95,7 +95,7 @@ public class MemberService {
         memberDto.setInsertedAt(db.getInsertedAt());
         return memberDto;
     }
-    
+
     public void delete(MemberForm memberForm) {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
         // 암호를 암호화해서 저장했으므로
@@ -113,7 +113,8 @@ public class MemberService {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
 
         // 암호 확인
-        if (!db.getPassword().equals(memberForm.getPassword())) {
+//        if (!db.getPassword().equals(memberForm.getPassword())) {
+        if (!passwordEncoder.matches(memberForm.getPassword(), db.getPassword())) {
             throw new RuntimeException("암호가 일치하지 않습니다.");
         }
         // 변경

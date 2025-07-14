@@ -99,7 +99,8 @@ public class MemberService {
     public void delete(MemberForm memberForm) {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
         // 암호를 암호화해서 저장했으므로
-        // 암호화된 암호랑 평문 암호랑 같은지 확인해야함
+        // 암호화된 암호랑 평문 암호랑 같은지 matches로 확인해야함
+        // 앞에가 입력값, 뒤에가 테이블에 저장된 값
 //        if (db.getPassword().equals(memberForm.getPassword())) {
         if (passwordEncoder.matches(memberForm.getPassword(), db.getPassword())) {
             memberRepository.delete(db);
@@ -113,6 +114,7 @@ public class MemberService {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
 
         // 암호 확인
+        // 얘도 matches 사용해서 입력값과, 테이블에 저장된 암호값과 비교
 //        if (!db.getPassword().equals(memberForm.getPassword())) {
         if (!passwordEncoder.matches(memberForm.getPassword(), db.getPassword())) {
             throw new RuntimeException("암호가 일치하지 않습니다.");
@@ -128,6 +130,8 @@ public class MemberService {
     public void changePassword(ChangePasswordForm data) {
         Member db = memberRepository.findById(data.getEmail()).get();
 
+        // 얘도 암호화된 암호랑 비교해야 하니까 matches 사용
+        // 마찬가지로 앞에가 입력값, 뒤에가 테이블에 있는 값
 //        if (db.getPassword().equals(data.getOldPassword())) {
         if (passwordEncoder.matches(data.getOldPassword(), db.getPassword())) {
 //            db.setPassword(data.getNewPassword());
@@ -144,6 +148,8 @@ public class MemberService {
         Optional<Member> db = memberRepository.findById(loginForm.getEmail());
         if (db.isPresent()) {
             // 있으면 패스워드 맞는지
+            // 암호를 암호화 해서 저장했으므로 matches를 통해 비교해야함
+            // 앞에가 입력받는 값, 뒤에가 저장된 암호화된 값
 //            if (db.get().getPassword().equals(loginForm.getPassword())) {
 //            if (bCryptPasswordEncoder.matches(loginForm.getPassword(), db.get().getPassword())) {
             // 넘 길어서 shift + f6으로 이름 바꿈

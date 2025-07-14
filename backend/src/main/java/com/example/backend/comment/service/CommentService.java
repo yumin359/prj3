@@ -21,6 +21,7 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
 
+    // 댓글 쓰기 Create
     public void add(CommentForm comment, Authentication authentication) {
         // 로그인 한 사용자가 없을 때 = 로그인 안 하고 댓글 못 씀
         if (authentication == null) {

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -122,10 +123,14 @@ public class MemberController {
     // 이메일은 특수 기호 등 뭐가 많은 문자열 이라서 위처럼 보내는 걸 추천
     // board edit 는 숫자만 보내느 거라서 경로로 보냈던 것!!
     @GetMapping(params = "email")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    // admin은 남의 정보 보는 것만 가능
+    // 수정/삭제 불가능
     public ResponseEntity<?> getMember(String email,
                                        Authentication authentication) {
-        if (authentication.getName().equals(email)) {
+        if (authentication.getName().equals(email) || // 자기 거거나
+                authentication.getAuthorities().contains(new SimpleGrantedAuthority("SCOPE_admin"))) {
+            // admin이 있으면
             return ResponseEntity.ok().body(memberService.get(email));
         } else {
             return ResponseEntity.status(403).build();
@@ -134,6 +139,7 @@ public class MemberController {
         // 로그아웃 사용자는 아무 회원 정보를 못 봄
     }
 
+    // admin만 보이게 수정할 것임(원래 로그인 하면 다 볼 수 있었음)
     @GetMapping("list")
     @PreAuthorize("hasAuthority('SCOPE_admin')")
     // 즉 admin 인 trump로 로그인 됐을 때만 회원목록 볼 수 있음

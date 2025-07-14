@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { AuthenticationContext } from "./AuthenticationContextProvider.jsx";
 
 export function AppNavBar() {
-  const { user } = useContext(AuthenticationContext);
+  const { user, isAdmin } = useContext(AuthenticationContext);
 
   return (
     <div>
@@ -30,7 +30,9 @@ export function AppNavBar() {
                   가입
                 </Nav.Link>
               )}
-              {user !== null && (
+              {/*{user !== null && (*/}
+              {/*어드민일때만 네브바에 회원목록 나오도록*/}
+              {isAdmin() && (
                 <Nav.Link as={NavLink} to="/member/list">
                   회원 목록
                 </Nav.Link>

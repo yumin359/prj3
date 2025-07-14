@@ -67,14 +67,14 @@ public class BoardService {
 
     // 게시물 하나 보기 Read(one)
     public BoardDto getBoardById(Integer id) {
-        Board board = boardRepository.findById(id).get();
-        BoardDto boardDto = new BoardDto();
-        boardDto.setId(board.getId());
-        boardDto.setTitle(board.getTitle());
-        boardDto.setContent(board.getContent());
-        boardDto.setAuthor(board.getAuthor());
-        boardDto.setInsertedAt(board.getInsertedAt());
-        return boardDto;
+        BoardDto board = boardRepository.findBoardById(id);
+//        BoardDto boardDto = new BoardDto();
+//        boardDto.setId(board.getId());
+//        boardDto.setTitle(board.getTitle());
+//        boardDto.setContent(board.getContent());
+//        boardDto.setAuthor(board.getAuthor());
+//        boardDto.setInsertedAt(board.getInsertedAt());
+        return board;
     }
 
     // 게시물 삭제 Delete

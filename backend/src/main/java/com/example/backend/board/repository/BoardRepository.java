@@ -1,5 +1,6 @@
 package com.example.backend.board.repository;
 
+import com.example.backend.board.dto.BoardDto;
 import com.example.backend.board.dto.BoardListDto;
 import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.entity.Board;
@@ -13,6 +14,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     List<BoardListInfo> findAllByOrderByIdDesc();
 
     // JPQL 등 다른 거로 해도 됨
+    // 게시물 목록 보기 쿼리
     @Query(value = """
                 SELECT b.id id,
                        b.title title,
@@ -23,4 +25,18 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                 ORDER BY b.id DESC 
             """, nativeQuery = true)
     List<BoardListDto> findAllBy();
+
+    // 게시물 하나 보기 쿼리
+    @Query(value = """
+                SELECT b.id id,
+                       b.title title,
+                       b.content content,
+                       b.inserted_at inserted_at,
+                       m.email author_email,
+                       m.nick_name author_nick_name
+                FROM board b JOIN member m 
+                    ON b.author = m.email
+                WHERE b.id = :id
+            """, nativeQuery = true)
+    BoardDto findBoardById(Integer id);
 }

@@ -98,7 +98,11 @@ export function BoardDetail() {
         <div>
           <FormGroup className="mb-3" controlId="author1">
             <FormLabel>작성자</FormLabel>
-            <FormControl readOnly={true} value={board.author} />
+            <FormControl
+              readOnly={true}
+              // value={board.author}
+              value={board.authorNickName}
+            />
           </FormGroup>
         </div>
         <div>

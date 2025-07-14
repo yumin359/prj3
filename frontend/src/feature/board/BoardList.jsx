@@ -61,42 +61,6 @@ export function BoardList() {
 
   return (
     <>
-      <Row className="my-3">
-        <Col>
-          <Pagination>
-            <Pagination.First
-              disabled={pageInfo.currentPageNumber === 1}
-              onClick={() => handlePageNumberClick(1)}
-            ></Pagination.First>
-            <Pagination.Prev
-              disabled={pageInfo.leftPageNumber <= 1}
-              onClick={() =>
-                handlePageNumberClick(pageInfo.leftPageNumber - 10)
-              }
-            ></Pagination.Prev>
-            {pageNumbers.map((pageNumber) => (
-              <Pagination.Item
-                key={pageNumber}
-                onClick={() => handlePageNumberClick(pageNumber)}
-                active={pageInfo.currentPageNumber === pageNumber}
-              >
-                {pageNumber}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next
-              disabled={pageInfo.rightPageNumber >= pageInfo.totalPages}
-              onClick={() =>
-                handlePageNumberClick(pageInfo.rightPageNumber + 1)
-              }
-            ></Pagination.Next>
-            <Pagination.Last
-              disabled={pageInfo.currentPageNumber === pageInfo.totalPages}
-              onClick={() => handlePageNumberClick(pageInfo.totalPages)}
-            ></Pagination.Last>
-          </Pagination>
-        </Col>
-      </Row>
-
       <Row>
         <Col>
           <h2 className="mb-4">글 목록</h2>
@@ -142,6 +106,42 @@ export function BoardList() {
               작성된 글이 없습니다. <br />새 글을 작성해 보세요.
             </p>
           )}
+        </Col>
+      </Row>
+
+      <Row className="my-3">
+        <Col>
+          <Pagination className="justify-content-center">
+            <Pagination.First
+              disabled={pageInfo.currentPageNumber === 1}
+              onClick={() => handlePageNumberClick(1)}
+            ></Pagination.First>
+            <Pagination.Prev
+              disabled={pageInfo.leftPageNumber <= 1}
+              onClick={() =>
+                handlePageNumberClick(pageInfo.leftPageNumber - 10)
+              }
+            ></Pagination.Prev>
+            {pageNumbers.map((pageNumber) => (
+              <Pagination.Item
+                key={pageNumber}
+                onClick={() => handlePageNumberClick(pageNumber)}
+                active={pageInfo.currentPageNumber === pageNumber}
+              >
+                {pageNumber}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next
+              disabled={pageInfo.rightPageNumber >= pageInfo.totalPages}
+              onClick={() =>
+                handlePageNumberClick(pageInfo.rightPageNumber + 1)
+              }
+            ></Pagination.Next>
+            <Pagination.Last
+              disabled={pageInfo.currentPageNumber === pageInfo.totalPages}
+              onClick={() => handlePageNumberClick(pageInfo.totalPages)}
+            ></Pagination.Last>
+          </Pagination>
         </Col>
       </Row>
     </>

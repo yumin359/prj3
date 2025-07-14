@@ -4,6 +4,8 @@ import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.entity.Board;
 import com.example.backend.board.dto.BoardDto;
 import com.example.backend.board.repository.BoardRepository;
+import com.example.backend.member.entity.Member;
+import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
 
     // 게시물 작성 Create
     public void add(BoardDto dto, Authentication authentication) {
@@ -31,8 +34,12 @@ public class BoardService {
         Board board = new Board();
         board.setTitle(dto.getTitle());
         board.setContent(dto.getContent());
+
         // 로그인 한 사용자의 email이 게시물 작성자에 들어감
-        board.setAuthor(authentication.getName());
+//        board.setAuthor(authentication.getName());
+        // author를 member 테이블과 외래키 해서 이것도 바꿔줌
+        Member author = memberRepository.findById(authentication.getName()).get();
+        board.setAuthor(author);
 
         // repository에 save 실행
         boardRepository.save(board);

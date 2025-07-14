@@ -7,11 +7,14 @@ import com.example.backend.board.repository.BoardRepository;
 import com.example.backend.member.entity.Member;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -56,9 +59,24 @@ public class BoardService {
 
     // 게시물 목록 보기 Read(list) + 검색
 //    public List<BoardListInfo> list() {
-    public List<BoardListDto> list(String keyword) {
+    public Map<String, Object> list(String keyword, Integer pageNumber) {
 //        return boardRepository.findAllByOrderByIdDesc();
-        return boardRepository.findAllBy(keyword);
+        Page<BoardListDto> boardListDtoPage
+                = boardRepository.findAllBy(keyword, PageRequest.of(pageNumber - 1, 10));
+
+        int totalPages = boardListDtoPage.getTotalPages(); // 마지막 페이지
+        int rightPageNumber = ((pageNumber - 1) / 10 + 1) * 10; // 오른쪽 페이지
+        int leftPageNumber = rightPageNumber - 9; // 왼쪽 페이지
+        rightPageNumber = Math.min(rightPageNumber, totalPages); // 오른쪽 페이지는 마지막 페이지보다 클 수 없음
+        leftPageNumber = Math.max(leftPageNumber, 1); // 왼쪽 페이지는 1페이지보다 작을 수 없음
+
+        var pageInfo = Map.of("totalPages", totalPages,
+                "rightPageNumber", rightPageNumber,
+                "leftPageNumber", leftPageNumber,
+                "currentPageNumber", pageNumber);
+
+        return Map.of("pageInfo", pageInfo,
+                "boardList", boardListDtoPage.getContent());
     }
 
     // 게시물 하나 보기 Read(one)

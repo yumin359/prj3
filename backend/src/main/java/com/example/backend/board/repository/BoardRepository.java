@@ -5,6 +5,8 @@ import com.example.backend.board.dto.BoardListDto;
 import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.entity.Board;
 import com.example.backend.member.entity.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -30,7 +32,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                    OR m.nickName LIKE %:keyword%
                 ORDER BY b.id DESC
             """)
-    List<BoardListDto> findAllBy(String keyword);
+    Page<BoardListDto> findAllBy(String keyword, PageRequest pageRequest);
+//    List<BoardListDto> findAllBy(String keyword, PageRequest pageRequest);
 
     // 순서가 같아야 함 BoradDto에서 쓴 거랑
     // 얘도 JPQL로 바꿈

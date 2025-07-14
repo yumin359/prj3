@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router";
 export function BoardList() {
   // 게시물 목록들은 계속 바뀌는(삭제, 저장, 수정, 추가) 것이므로 state
   const [boardList, setBoardList] = useState(null);
+  const [pageInfo, setPageInfo] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,6 +22,8 @@ export function BoardList() {
         console.log("잘 될 때 코드");
         // 정상적으로 응답 데이터 받으면
         setBoardList(res.data);
+        setBoardList(res.data.boardList);
+        setPageInfo(res.data.pageInfo);
       })
       .catch((err) => {
         console.log("잘 안 될때 코드");
@@ -43,7 +46,8 @@ export function BoardList() {
   }
 
   const pageNumbers = [];
-  for (let i = 1; i <= 10; i++) {
+  // for (let i = 1; i <= 10; i++) {
+  for (let i = pageInfo.leftPageNumber; i <= pageInfo.rightPageNumber; i++) {
     pageNumbers.push(i);
   }
 

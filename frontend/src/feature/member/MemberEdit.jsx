@@ -46,6 +46,7 @@ export function MemberEdit() {
   }, []);
 
   function handleSaveButtonClick() {
+    // 호옹 이거는 PutMapping 으로 요청 가는구만..
     axios
       .put(`/api/member`, { ...member, password: password })
       .then((res) => {

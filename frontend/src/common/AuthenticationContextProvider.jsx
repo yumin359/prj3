@@ -62,6 +62,7 @@ export function AuthenticationContextProvider({ children }) {
   function login(token) {
     localStorage.setItem("token", token);
     const payload = jwtDecode(token);
+    // 얘도 그냥 정보 하나보기 에서 값 받아온것!! 경로가 같아서용
     axios.get("/api/member?email=" + payload.sub).then((res) => {
       // 로그인 요청이 성공적으로 되면 user 라는 상태에
       // email

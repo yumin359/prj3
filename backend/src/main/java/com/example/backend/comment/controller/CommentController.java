@@ -22,6 +22,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<?> addComment(@RequestBody CommentForm comment,
                                         Authentication authentication) {
+        // 로그인 한 사람 정보 가져옴(작성자를 알아야 하니까)
         try {
             commentService.add(comment, authentication);
             return ResponseEntity.ok()

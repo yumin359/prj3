@@ -22,14 +22,14 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
-    private Board board;
+    private Board board; // 게시물 번호
 
     @ManyToOne
     @JoinColumn(name = "author")
-    private Member author;
+    private Member author; // 댓글 작성자
 
-    private String comment;
+    private String comment; // 댓글 본문
 
     @Column(insertable = false, updatable = false)
-    private LocalDateTime insertedAt;
+    private LocalDateTime insertedAt; // 댓글 써지는 시간
 }

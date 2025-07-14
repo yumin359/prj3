@@ -4,6 +4,7 @@ import com.example.backend.member.dto.*;
 import com.example.backend.member.entity.Member;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -22,6 +23,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtEncoder jwtEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void delete(MemberForm memberForm) {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
@@ -38,7 +40,9 @@ public class MemberService {
         if (this.validate(memberForm)) {
             Member member = new Member();
             member.setEmail(memberForm.getEmail());
-            member.setPassword(memberForm.getPassword());
+//            member.setPassword(memberForm.getPassword());
+            member.setPassword(bCryptPasswordEncoder.encode(memberForm.getPassword()));
+            // 이제 이러면 테이블에 암호화 되어 저장됨. 복호화 불가능해서 암호 잊어버리면 못 찾음
             member.setNickName(memberForm.getNickName());
             member.setInfo(memberForm.getInfo());
             memberRepository.save(member);

@@ -21,7 +21,7 @@ export function MemberDetail() {
   const [password, setPassword] = useState("");
 
   // 로그아웃 컨텍스트 가져오기
-  const { logout } = useContext(AuthenticationContext);
+  const { logout, hasAccess } = useContext(AuthenticationContext);
   // 쿼리스트링을 통해 경로를 요청하므로 useSearchParams
   const [params] = useSearchParams();
 
@@ -112,23 +112,25 @@ export function MemberDetail() {
             />
           </FormGroup>
         </div>
-        <div>
-          <Button
-            variant="outline-danger"
-            size="sm"
-            className="me-2"
-            onClick={() => setModalShow(true)}
-          >
-            회원 탈퇴
-          </Button>
-          <Button
-            variant="outline-info"
-            onClick={() => navigate(`/member/edit?email=${member.email}`)}
-          >
-            {/* 얘도 navigate로 보내서 브라우저 url이 변경된 거 */}
-            수정
-          </Button>
-        </div>
+        {hasAccess(member.email) && (
+          <div>
+            <Button
+              variant="outline-danger"
+              size="sm"
+              className="me-2"
+              onClick={() => setModalShow(true)}
+            >
+              회원 탈퇴
+            </Button>
+            <Button
+              variant="outline-info"
+              onClick={() => navigate(`/member/edit?email=${member.email}`)}
+            >
+              {/* 얘도 navigate로 보내서 브라우저 url이 변경된 거 */}
+              수정
+            </Button>
+          </div>
+        )}
       </Col>
 
       {/* 삭제 확인 모달 */}

@@ -1,6 +1,7 @@
 package com.example.backend.board.controller;
 
 import com.example.backend.board.dto.BoardDto;
+import com.example.backend.board.dto.BoardListDto;
 import com.example.backend.board.dto.BoardListInfo;
 import com.example.backend.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class BoardController {
     }
 
     @GetMapping("list")
-    public List<BoardListInfo> getAllBoards() {
+    public List<BoardListDto> getAllBoards() {
         // 게시물 목록 보기
         return boardService.list();
     }

@@ -34,8 +34,6 @@ public class CommentController {
                     .body(Map.of("message",
                             Map.of("type", "error",
                                     "text", e.getMessage())));
-
         }
-
     }
 }

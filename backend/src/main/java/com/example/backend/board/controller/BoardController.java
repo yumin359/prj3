@@ -74,9 +74,10 @@ public class BoardController {
     }
 
     @GetMapping("list")
-    public List<BoardListDto> getAllBoards() {
-        // 게시물 목록 보기
-        return boardService.list();
+    public List<BoardListDto> getAllBoards(
+            @RequestParam(value = "q", defaultValue = "") String keyword) {
+        // 게시물 목록 보기 + 검색
+        return boardService.list(keyword);
     }
 
     @PostMapping("add")

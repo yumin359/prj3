@@ -54,11 +54,11 @@ public class BoardService {
         return true;
     }
 
-    // 게시물 목록 보기 Read(list)
+    // 게시물 목록 보기 Read(list) + 검색
 //    public List<BoardListInfo> list() {
-    public List<BoardListDto> list() {
+    public List<BoardListDto> list(String keyword) {
 //        return boardRepository.findAllByOrderByIdDesc();
-        return boardRepository.findAllBy();
+        return boardRepository.findAllBy(keyword);
     }
 
     // 게시물 하나 보기 Read(one)

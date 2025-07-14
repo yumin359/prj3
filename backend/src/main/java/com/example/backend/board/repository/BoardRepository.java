@@ -16,7 +16,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 
     // naviteQuery로 하면 뭐할게 많아서
     // JPQL로 하신대용
-    // 게시물 목록 보기 쿼리
+    // 게시물 목록 보기 쿼리 + 검색까지
     @Query(value = """
                 SELECT new com.example.backend.board.dto.BoardListDto(
                             b.id,
@@ -25,9 +25,12 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
                             b.insertedAt)
                 FROM Board b JOIN Member m
                         ON b.author.email = m.email
+                WHERE b.title LIKE %:keyword%
+                   OR b.content LIKE %:keyword%
+                   OR m.nickName LIKE %:keyword%
                 ORDER BY b.id DESC
             """)
-    List<BoardListDto> findAllBy();
+    List<BoardListDto> findAllBy(String keyword);
 
     // 순서가 같아야 함 BoradDto에서 쓴 거랑
     // 얘도 JPQL로 바꿈

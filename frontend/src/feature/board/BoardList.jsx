@@ -64,6 +64,14 @@ export function BoardList() {
       <Row className="my-3">
         <Col>
           <Pagination>
+            <Pagination.First
+              onClick={() => handlePageNumberClick(1)}
+            ></Pagination.First>
+            <Pagination.Prev
+              onClick={() =>
+                handlePageNumberClick(pageInfo.leftPageNumber - 10)
+              }
+            ></Pagination.Prev>
             {pageNumbers.map((pageNumber) => (
               <Pagination.Item
                 key={pageNumber}
@@ -72,6 +80,14 @@ export function BoardList() {
                 {pageNumber}
               </Pagination.Item>
             ))}
+            <Pagination.Next
+              onClick={() =>
+                handlePageNumberClick(pageInfo.rightPageNumber + 1)
+              }
+            ></Pagination.Next>
+            <Pagination.Last
+              onClick={() => handlePageNumberClick(pageInfo.totalPages)}
+            ></Pagination.Last>
           </Pagination>
         </Col>
       </Row>

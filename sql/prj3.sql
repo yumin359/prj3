@@ -48,3 +48,12 @@ VALUES ('qwe', 'asd', '99@99.com'),
        ('fgh', 'vbn', '88@88.com'),
        ('789', 'uio', '99@99.com'),
        ('jkl', 'nmp', '88@88.com');
+
+# 페이지 테스트용 데이터
+INSERT INTO board
+    (title, content, author)
+SELECT title, content, author
+FROM board;
+SELECT count(*)
+FROM board;
+# 1536 개 만들었ㄷ숨

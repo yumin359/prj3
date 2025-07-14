@@ -1,7 +1,9 @@
 package com.example.backend.member.service;
 
 import com.example.backend.member.dto.*;
+import com.example.backend.member.entity.Auth;
 import com.example.backend.member.entity.Member;
+import com.example.backend.member.repository.AuthRepository;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +17,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final JwtEncoder jwtEncoder;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthRepository authRepository;
 
     // 회원 가입 Create
     public void add(MemberForm memberForm) {
@@ -154,12 +158,27 @@ public class MemberService {
 //            if (bCryptPasswordEncoder.matches(loginForm.getPassword(), db.get().getPassword())) {
             // 넘 길어서 shift + f6으로 이름 바꿈
             if (passwordEncoder.matches(loginForm.getPassword(), db.get().getPassword())) {
+                // admin 권한 작업중
+                List<Auth> authList = authRepository.findByMember(db.get());
+                // 고전적 방법
+//                String authListString = "";
+//                for (Auth auth : authList) {
+//                    authListString = authListString + " " + auth.getId().getAuthName();
+//                }
+//                authListString = authListString.trim();
+
+                // stream 사용
+                String authListString = authList.stream()
+                        .map(auth -> auth.getId().getAuthName())
+                        .collect(Collectors.joining(" "));
+
                 // 둘 다 맞으면 token 만들어서 리턴
                 JwtClaimsSet claims = JwtClaimsSet.builder()
                         .subject(loginForm.getEmail())
                         .issuer("self")
                         .issuedAt(Instant.now())
                         .expiresAt(Instant.now().plusSeconds(60 * 60 * 24 * 365))
+                        .claim("scp", authListString)
                         .build();
 
                 return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

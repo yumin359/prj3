@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -11,14 +11,18 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
+import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
 
 export function BoardAdd() {
   // 제목, 본문, 작성자는 입력값에 따라 바뀌니까 state로 써줌
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
+  // const [author, setAuthor] = useState("");
+  const { user } = useContext(AuthenticationContext);
+
   // 중복 저장 되는 것(버튼 여러번 눌리는 거)을 막기 위한 state
   const [isProcessing, setIsProcessing] = useState(false);
+
   // 링크 안 쓰고 코드로 경로 변경하기 위해 navigate 써줌
   const navigate = useNavigate();
 
@@ -30,7 +34,7 @@ export function BoardAdd() {
       .post("/api/board/add", {
         title: title,
         content: content,
-        author: author,
+        // author: author,
       })
       .then((res) => {
         // 응답 데이터 받아서 출력하기 (정상 응답 시 출력)
@@ -58,14 +62,12 @@ export function BoardAdd() {
   }
 
   // 제목, 본문, 작성자, 썼는지 확인해서 -> 아래 버튼 주석 보기
+  // 작성자는 이제 필요없으니까 지움
   let validate = true;
   if (title.trim() === "") {
     validate = false;
   }
   if (content.trim() === "") {
-    validate = false;
-  }
-  if (author.trim() === "") {
     validate = false;
   }
 
@@ -97,8 +99,10 @@ export function BoardAdd() {
           <FormGroup className="mb-3" controlId="author1">
             <FormLabel>작성자</FormLabel>
             <FormControl
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              value={user.nickName}
+              disabled
+              // value={author}
+              // onChange={(e) => setAuthor(e.target.value)}
             />
           </FormGroup>
         </div>

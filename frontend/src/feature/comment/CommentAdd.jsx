@@ -1,11 +1,14 @@
 import { Button, FormControl, Spinner } from "react-bootstrap";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
 
 export function CommentAdd({ boardId }) {
   const [comment, setComment] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const { user } = useContext(AuthenticationContext);
 
   function handleCommentSaveClick() {
     // 댓글 저장 버튼 여러 번 클릭되지 않게
@@ -35,8 +38,6 @@ export function CommentAdd({ boardId }) {
       });
   }
 
-  // TODO 로그인 했을 때만 댓글 활성화
-
   // 내용없는 댓글 작성시 저장 버튼 비활성화
   let saveButtonDisabled = false;
   if (comment.trim().length === 0) {
@@ -49,6 +50,8 @@ export function CommentAdd({ boardId }) {
         as="textarea"
         rows={3}
         value={comment}
+        // 로그인 했을 때만 댓글창 활성화
+        disabled={user === null}
         onChange={(e) => setComment(e.target.value)}
       />
       {/*댓글 저장 버튼 여러 번 클릭되지 않게*/}

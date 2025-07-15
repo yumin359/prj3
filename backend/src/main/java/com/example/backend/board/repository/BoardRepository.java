@@ -19,17 +19,23 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     // naviteQuery로 하면 뭐할게 많아서
     // JPQL로 하신대용
     // 게시물 목록 보기 쿼리 + 검색까지
+    // JPQL에서는 subquery가 안 됨
+    // 그래서 LEFT 조인으로 해줬어용
     @Query(value = """
                 SELECT new com.example.backend.board.dto.BoardListDto(
                             b.id,
                             b.title,
                             m.nickName,
-                            b.insertedAt)
+                            b.insertedAt,
+                            COUNT(c))
                 FROM Board b JOIN Member m
                         ON b.author.email = m.email
+                    LEFT JOIN Comment c
+                        ON b.id = c.board.id
                 WHERE b.title LIKE %:keyword%
                    OR b.content LIKE %:keyword%
                    OR m.nickName LIKE %:keyword%
+                GROUP BY b.id
                 ORDER BY b.id DESC
             """)
     Page<BoardListDto> findAllBy(String keyword, PageRequest pageRequest);

@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { BsSend } from "react-icons/bs";
 
 export function CommentAdd({ boardId, isProcessing, setIsProcessing }) {
   const [comment, setComment] = useState("");
@@ -77,7 +78,7 @@ export function CommentAdd({ boardId, isProcessing, setIsProcessing }) {
           onClick={handleCommentSaveClick}
         >
           {isProcessing && <Spinner size="sm" />}
-          댓글 저장
+          <BsSend />
         </Button>
       </div>
     </div>

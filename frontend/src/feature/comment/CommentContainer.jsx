@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { CommentAdd } from "./CommentAdd.jsx";
 import { CommentList } from "./CommentList.jsx";
+import { TfiCommentAlt } from "react-icons/tfi";
 
 export function CommentContainer({ boardId }) {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -35,7 +36,10 @@ export function CommentContainer({ boardId }) {
 
   return (
     <div>
-      <h4 className="mb-3">댓글 ({commentList.length})</h4>
+      <h4 className="mb-3">
+        <TfiCommentAlt className="me-2" />
+        댓글 ({commentList.length})
+      </h4>
 
       <CommentAdd
         boardId={boardId}

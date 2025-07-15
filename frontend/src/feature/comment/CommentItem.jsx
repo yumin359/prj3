@@ -13,6 +13,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { FaTrashAlt, FaPencilAlt, FaUser, FaRegClock } from "react-icons/fa";
 
 export function CommentItem({ comment, isProcessing, setIsProcessing }) {
   const [deleteModalShow, setDeleteModalShow] = useState(false);
@@ -62,8 +63,14 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
       <div className="position-relative">
         <Card className="my-3">
           <CardHeader className="d-flex justify-content-between">
-            <div style={{ fontWeight: "bold" }}>{comment.authorNickName}</div>
-            <small>{comment.timesAgo}</small>
+            <div style={{ fontWeight: "bold" }}>
+              <FaUser />
+              {comment.authorNickName}
+            </div>
+            <small>
+              <FaRegClock className="me-1" />
+              {comment.timesAgo}
+            </small>
           </CardHeader>
           <CardBody>
             <div style={{ whiteSpace: "pre" }}>{comment.comment}</div>
@@ -78,7 +85,8 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
               onClick={() => setDeleteModalShow(true)}
               className="me-2"
             >
-              {isProcessing && <Spinner size="sm" />}삭제
+              {isProcessing && <Spinner size="sm" />}
+              <FaTrashAlt />
             </Button>
             <Button
               size="sm"
@@ -86,7 +94,8 @@ export function CommentItem({ comment, isProcessing, setIsProcessing }) {
               disabled={isProcessing}
               onClick={() => setEditModalShow(true)}
             >
-              {isProcessing && <Spinner size="sm" />}수정
+              {isProcessing && <Spinner size="sm" />}
+              <FaPencilAlt />
             </Button>
           </div>
         )}

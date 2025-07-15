@@ -5,6 +5,7 @@ import com.example.backend.comment.dto.CommentListDto;
 import com.example.backend.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,12 @@ import java.util.Map;
 public class CommentController {
 
     private final CommentService commentService;
+
+    @DeleteMapping("{commentId}")
+    @PreAuthorize("isAuthenticated()")
+    public void delete(@PathVariable Integer commentId, Authentication authentication) {
+        commentService.delete(commentId, authentication);
+    }
 
     @GetMapping("board/{boardId}")
     public List<CommentListDto> list(@PathVariable Integer boardId) {

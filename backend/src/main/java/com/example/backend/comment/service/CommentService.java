@@ -64,4 +64,19 @@ public class CommentService {
             throw new RuntimeException();
         }
     }
+
+    // 댓글 수정 Update
+    public void update(CommentForm commentForm, Authentication authentication) {
+        if (authentication != null) {
+            Comment comment = commentRepository.findById(commentForm.getId()).get();
+            if (comment.getAuthor().getEmail().equals(authentication.getName())) {
+                // 자신이 쓴 댓글이 맞으면
+                comment.setComment(commentForm.getComment());
+                commentRepository.save(comment);
+
+                return;
+            }
+        }
+        throw new RuntimeException("댓글 저장 중 문제가 발생하였습니다");
+    }
 }

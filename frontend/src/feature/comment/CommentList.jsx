@@ -33,7 +33,23 @@ function CommentItem({ comment, isProcessing, setIsProcessing }) {
   }
 
   function handleUpdateButtonClick() {
-    // TODO 댓글 수정
+    setIsProcessing(true);
+    axios
+      .put(`/api/comment`, {
+        id: comment.id,
+        comment: nextComment,
+      })
+      .then((res) => {
+        toast.success("댓글이 수정되었습니다.");
+      })
+      .catch((err) => {
+        toast.error("댓글 수정 중 문제가 발생하였습니다.");
+        setNextComment(comment.comment);
+      })
+      .finally(() => {
+        setIsProcessing(false);
+        setEditModalShow(false);
+      });
   }
 
   return (

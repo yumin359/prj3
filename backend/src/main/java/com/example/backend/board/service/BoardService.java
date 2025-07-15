@@ -4,6 +4,8 @@ import com.example.backend.board.dto.BoardListDto;
 import com.example.backend.board.entity.Board;
 import com.example.backend.board.dto.BoardDto;
 import com.example.backend.board.repository.BoardRepository;
+import com.example.backend.comment.repository.CommentRepository;
+import com.example.backend.comment.service.CommentService;
 import com.example.backend.member.entity.Member;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     // 게시물 작성 Create
     public void add(BoardDto dto, Authentication authentication) {
@@ -91,7 +94,7 @@ public class BoardService {
         return board;
     }
 
-    // 게시물 삭제 Delete
+    // 게시물 삭제 Delete + 거기에 있는 댓글들이 먼저 삭제되어야 함
     public void deleteById(Integer id, Authentication authentication) {
         if (authentication == null) {
             throw new RuntimeException("권한이 없습니다.");
@@ -100,6 +103,8 @@ public class BoardService {
         Board db = boardRepository.findById(id).get();
 
         if (db.getAuthor().getEmail().equals(authentication.getName())) {
+            // 댓글들 먼저 삭제
+            commentRepository.deleteByBoardId(id);
             boardRepository.deleteById(id);
         } else {
             throw new RuntimeException("권한이 없습니다.");

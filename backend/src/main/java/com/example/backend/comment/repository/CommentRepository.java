@@ -25,4 +25,6 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
             ORDER BY c.id DESC
             """)
     List<CommentListDto> listByBoardId(Integer boardId);
+
+    void deleteByBoardId(Integer boardId);
 }

@@ -17,6 +17,7 @@ function CommentItem({ comment }) {
 
 export function CommentList({ boardId }) {
   const [commentList, setCommentList] = useState(null);
+  const [comment, setComment] = useState(null);
 
   useEffect(() => {
     axios

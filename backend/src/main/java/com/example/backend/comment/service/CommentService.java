@@ -27,6 +27,10 @@ public class CommentService {
         if (authentication == null) {
             throw new RuntimeException("권한이 없습니다.");
         }
+        // 내용이 없는 댓글 작성 방지
+        if (comment.getComment().trim().isBlank()) {
+            throw new RuntimeException("내용이 없는 댓글을 작성할 수 없습니다");
+        }
 
         // board entity 에서 게시물 번호 가져옴
         Board board = boardRepository.findById(comment.getBoardId()).get();

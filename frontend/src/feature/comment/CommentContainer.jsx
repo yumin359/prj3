@@ -35,7 +35,7 @@ export function CommentContainer({ boardId }) {
 
   return (
     <div>
-      <h3>댓글 ({commentList.length})</h3>
+      <h4 className="mb-3">댓글 ({commentList.length})</h4>
 
       <CommentAdd
         boardId={boardId}

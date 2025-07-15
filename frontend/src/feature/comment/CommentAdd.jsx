@@ -27,11 +27,15 @@ export function CommentAdd({ boardId }) {
       .finally(() => {});
   }
 
-  // TODO 댓글 비었을 때 저장 안 되게 -> 컨트롤러에서 막기
-
   // TODO 로그인 했을 때만 댓글 활성화
   // TODO 댓글 저장 버튼 여러 번 클릭되지 않게
   // TODO 댓글 저장 후에 textarea 비우기
+
+  // 내용없는 댓글 작성시 저장 버튼 비활성화
+  let saveButtonDisabled = false;
+  if (comment.trim().length === 0) {
+    saveButtonDisabled = true;
+  }
 
   return (
     <div>
@@ -41,7 +45,9 @@ export function CommentAdd({ boardId }) {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <Button onClick={handleCommentSaveClick}>댓글 저장</Button>
+      <Button disabled={saveButtonDisabled} onClick={handleCommentSaveClick}>
+        댓글 저장
+      </Button>
     </div>
   );
 }

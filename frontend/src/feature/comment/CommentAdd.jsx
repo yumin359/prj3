@@ -17,6 +17,8 @@ export function CommentAdd({ boardId }) {
         if (message) {
           toast(message.text, { type: message.type });
         }
+        // 댓글 저장 후에 textarea 비우기
+        setComment("");
       })
       .catch((err) => {
         const message = err.response.data.message;
@@ -29,7 +31,6 @@ export function CommentAdd({ boardId }) {
 
   // TODO 로그인 했을 때만 댓글 활성화
   // TODO 댓글 저장 버튼 여러 번 클릭되지 않게
-  // TODO 댓글 저장 후에 textarea 비우기
 
   // 내용없는 댓글 작성시 저장 버튼 비활성화
   let saveButtonDisabled = false;

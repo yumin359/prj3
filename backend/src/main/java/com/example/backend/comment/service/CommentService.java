@@ -49,6 +49,7 @@ public class CommentService {
         commentRepository.save(db);
     }
 
+    // 댓글 목록 보기 Read(list)
     public List<CommentListDto> listByBoardId(Integer boardId) {
         return commentRepository.listByBoardId(boardId);
     }

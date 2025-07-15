@@ -10,6 +10,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     // find, save ... 등 기본 메소드 이미 있음
 
+    // 댓글 목록 보기 JPQL
     @Query("""
             SELECT new com.example.backend.comment.dto.CommentListDto (
                 c.id,

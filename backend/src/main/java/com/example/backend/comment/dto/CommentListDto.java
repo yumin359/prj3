@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+// 댓글 목록 보기 DTO
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

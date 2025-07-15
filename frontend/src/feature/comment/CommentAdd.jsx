@@ -1,4 +1,4 @@
-import { Button, FormControl, Spinner } from "react-bootstrap";
+import { Button, FloatingLabel, FormControl, Spinner } from "react-bootstrap";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -46,14 +46,28 @@ export function CommentAdd({ boardId }) {
 
   return (
     <div>
-      <FormControl
-        as="textarea"
-        rows={3}
-        value={comment}
-        // 로그인 했을 때만 댓글창 활성화
-        disabled={user === null}
-        onChange={(e) => setComment(e.target.value)}
-      />
+      <FloatingLabel
+        controlId="commentTextarea1"
+        label={
+          user === null
+            ? "댓글을 작성하려면 로그인하세요."
+            : "댓글을 작성해보세요."
+        }
+      >
+        <FormControl
+          placeholder={
+            user === null
+              ? "댓글을 작성하려면 로그인하세요."
+              : "댓글을 작성해보세요."
+          }
+          as="textarea"
+          style={{ height: "150px" }}
+          value={comment}
+          // 로그인 했을 때만 댓글창 활성화
+          disabled={user === null}
+          onChange={(e) => setComment(e.target.value)}
+        />
+      </FloatingLabel>
       {/*댓글 저장 버튼 여러 번 클릭되지 않게*/}
       <Button
         disabled={saveButtonDisabled || isProcessing}

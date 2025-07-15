@@ -4,9 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
 
-export function CommentAdd({ boardId }) {
+export function CommentAdd({ boardId, isProcessing, setIsProcessing }) {
   const [comment, setComment] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
+  // const [isProcessing, setIsProcessing] = useState(false);
 
   const { user } = useContext(AuthenticationContext);
 
@@ -35,6 +35,8 @@ export function CommentAdd({ boardId }) {
       .finally(() => {
         // 댓글 저장 버튼 여러 번 클릭되지 않게
         setIsProcessing(false);
+        // -> 댓글이 작성이 완료된 순간이니까 이걸 넘겨주면 된대용
+        // 그래서 이걸 add가 아니라 container가 갖고 있게 바꾸기(lifting state up)
       });
   }
 

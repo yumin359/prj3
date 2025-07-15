@@ -15,18 +15,20 @@ function CommentItem({ comment }) {
   );
 }
 
-export function CommentList({ boardId }) {
+export function CommentList({ boardId, isProcessing }) {
   const [commentList, setCommentList] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`/api/comment/board/${boardId}`)
-      .then((res) => {
-        setCommentList(res.data);
-      })
-      .catch((err) => {})
-      .finally(() => {});
-  }, []);
+    if (!isProcessing) {
+      axios
+        .get(`/api/comment/board/${boardId}`)
+        .then((res) => {
+          setCommentList(res.data);
+        })
+        .catch((err) => {})
+        .finally(() => {});
+    }
+  }, [isProcessing]);
 
   if (commentList === null) {
     return <Spinner />;

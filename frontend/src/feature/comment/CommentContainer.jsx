@@ -16,7 +16,11 @@ export function CommentContainer({ boardId }) {
         isProcessing={isProcessing}
         setIsProcessing={setIsProcessing}
       />
-      <CommentList boardId={boardId} isProcessing={isProcessing} />
+      <CommentList
+        boardId={boardId}
+        isProcessing={isProcessing}
+        setIsProcessing={setIsProcessing}
+      />
       {/* add에서 container로 올리고 container에서 list로 내려줘야함 */}
     </div>
   );

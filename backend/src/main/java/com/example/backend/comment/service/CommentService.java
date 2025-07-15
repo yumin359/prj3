@@ -58,7 +58,8 @@ public class CommentService {
     public void delete(Integer commentId, Authentication authentication) {
         Comment comment = commentRepository.findById(commentId).get();
         if (comment.getAuthor().getEmail().equals(authentication.getName())) {
-            commentRepository.delete(comment);
+            // 로그인한 사용자 이름(즉 아이디->이메일이됨)이랑 작성자 이메일이랑 같은지
+            commentRepository.delete(comment); // 확인 후 삭제
         } else {
             throw new RuntimeException();
         }

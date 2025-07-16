@@ -19,6 +19,7 @@ public class BoardListDto {
     private LocalDateTime insertedAt;
     private Long countComment; // 게시물에 댓글 몇 개인지
     private Long countLike;
+    private Long countFile;
 
     public String getTimesAgo() {
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));

@@ -84,7 +84,7 @@ public class BoardController {
 
     @PostMapping("add")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> add(@RequestBody BoardAddForm dto,
+    public ResponseEntity<?> add(BoardAddForm dto,
                                  Authentication authentication) {
         // 값들이 유효한지 확인하는 메소드를 통해
         boolean result = boardService.validateForAdd(dto);

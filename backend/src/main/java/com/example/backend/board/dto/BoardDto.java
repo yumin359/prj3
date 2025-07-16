@@ -20,7 +20,7 @@ public class BoardDto {
     private String authorNickName;
     private LocalDateTime insertedAt;
 
-    private List<String> files;
+    private List<BoardFileDto> files;
 
     public BoardDto(Integer id, String title, String content, String authorEmail, String authorNickName, LocalDateTime insertedAt) {
         this.id = id;

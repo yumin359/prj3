@@ -6,10 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
 //@Controller
@@ -30,7 +29,7 @@ public class BoardController {
     @PutMapping("{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
-                                         BoardUpdateDto boardDto,
+                                         BoardUpdateForm boardDto,
                                          Authentication authentication) {
         System.out.println(boardDto);
         System.out.println("추가 파일 ########");
@@ -38,7 +37,7 @@ public class BoardController {
             System.out.println(boardFile.getOriginalFilename());
         });
         System.out.println("삭제 파일 ########");
-        boardDto.getDeleteFiles().forEach(System.out::println);
+        Arrays.stream(boardDto.getDeleteFiles()).forEach(System.out::println);
         return null;
 
         // 값들이 유효한지 확인하는 메소드를 통해

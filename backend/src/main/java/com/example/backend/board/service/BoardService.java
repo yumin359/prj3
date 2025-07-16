@@ -221,7 +221,10 @@ public class BoardService {
         if (deleteFiles != null && deleteFiles.length > 0) {
             for (String file : deleteFiles) {
                 // board_file table의 record 지우고
-                boardFileRepository.deleteByBoardIdAndName(db.getId(), file);
+                BoardFileId boardFileId = new BoardFileId();
+                boardFileId.setBoardId(db.getId());
+                boardFileId.setName(file);
+                boardFileRepository.deleteById(boardFileId);
 
                 // C:/Temp/prj3/boardFile/2324/tiger.jpg 지우고
                 File targetFile = new File("C:/Temp/prj3/boardFile/" + db.getId() + "/" + file);

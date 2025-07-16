@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router";
 import { FaRegComments } from "react-icons/fa";
+import { GoHeartFill } from "react-icons/go";
 
 export function BoardList() {
   // 게시물 목록들은 계속 바뀌는(삭제, 저장, 수정, 추가) 것이므로 state
@@ -70,7 +71,10 @@ export function BoardList() {
             <Table striped={true} hover={true}>
               <thead>
                 <tr>
-                  <th style={{ width: "90px" }}>#</th>
+                  <th style={{ width: "70px" }}>#</th>
+                  <th style={{ width: "70px" }}>
+                    <GoHeartFill />
+                  </th>
                   <th>제목</th>
                   <th
                     className="d-none d-md-table-cell"
@@ -94,6 +98,7 @@ export function BoardList() {
                     onClick={() => handleTableRowClick(board.id)}
                   >
                     <td>{board.id}</td>
+                    <td>{board.countLike > 0 ? board.countLike : ""}</td>
                     <td>
                       <div className="d-flex gap-2">
                         <span>{board.title}</span>

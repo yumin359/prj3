@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface BoardFileRepository extends JpaRepository<BoardFile, BoardFileId> {
     List<BoardFile> findByBoardId(Integer id);
+
+    void deleteByBoardIdAndName(Integer id, String name);
 }

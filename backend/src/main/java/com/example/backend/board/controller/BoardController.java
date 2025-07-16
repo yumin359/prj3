@@ -31,32 +31,23 @@ public class BoardController {
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
                                          BoardUpdateForm boardDto,
                                          Authentication authentication) {
-        System.out.println(boardDto);
-        System.out.println("추가 파일 ########");
-        boardDto.getFiles().forEach(boardFile -> {
-            System.out.println(boardFile.getOriginalFilename());
-        });
-        System.out.println("삭제 파일 ########");
-        Arrays.stream(boardDto.getDeleteFiles()).forEach(System.out::println);
-        return null;
-
         // 값들이 유효한지 확인하는 메소드를 통해
-//        boolean result = boardService.validate(boardDto);
-//        if (result) {
-//            // 제대로 되었을 때 service에게 일 시키고
-//            boardService.update(boardDto, authentication);
-//            // react에 보낼 응답
-//            return ResponseEntity.ok().body(Map.of(
-//                    "message", Map.of(
-//                            "type", "success",
-//                            "text", id + "번 게시물이 수정되었습니다.")));
-//        } else {
-//            // 이상할 때 react에 보낼 응답
-//            return ResponseEntity.ok().body(Map.of(
-//                    "message", Map.of(
-//                            "type", "error",
-//                            "text", "입력한 내용이 유효하지 않습니다.")));
-//        }
+        boolean result = boardService.validateForUpdate(boardDto);
+        if (result) {
+            // 제대로 되었을 때 service에게 일 시키고
+            boardService.update(boardDto, authentication);
+            // react에 보낼 응답
+            return ResponseEntity.ok().body(Map.of(
+                    "message", Map.of(
+                            "type", "success",
+                            "text", id + "번 게시물이 수정되었습니다.")));
+        } else {
+            // 이상할 때 react에 보낼 응답
+            return ResponseEntity.ok().body(Map.of(
+                    "message", Map.of(
+                            "type", "error",
+                            "text", "입력한 내용이 유효하지 않습니다.")));
+        }
     }
 
     @DeleteMapping("{id}")

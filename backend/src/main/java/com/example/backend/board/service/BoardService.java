@@ -158,7 +158,9 @@ public class BoardService {
         for (BoardFile boardFile : fileList) {
             BoardFileDto fileDto = new BoardFileDto();
             fileDto.setName(boardFile.getId().getName());
-            fileDto.setPath("http://localhost:8081/boardFile/" + id + "/" + boardFile.getId().getName());
+            // 강사님은 8081로 뜨셔서
+            // 내일은 aws에 s3 거기서 하는거로 한대용 -> 경로는 바뀜
+            fileDto.setPath("http://localhost:8080/boardFile/" + id + "/" + boardFile.getId().getName());
             files.add(fileDto);
         }
 
@@ -244,6 +246,7 @@ public class BoardService {
         }
     }
 
+    // 제목이랑 본문 있는지 확인
     public boolean validateForAdd(BoardAddForm dto) {
 
         if (dto.getTitle() == null || dto.getTitle().trim().isBlank()) {

@@ -23,6 +23,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -152,6 +153,14 @@ public class BoardService {
     // 게시물 하나 보기 Read(one)
     public BoardDto getBoardById(Integer id) {
         BoardDto board = boardRepository.findBoardById(id);
+        List<BoardFile> fileList = boardFileRepository.findByBoardId(id);
+        List<String> files = new ArrayList<>();
+        for (BoardFile boardFile : fileList) {
+            files.add(boardFile.getId().getName());
+        }
+
+        board.setFiles(files);
+
 //        BoardDto boardDto = new BoardDto();
 //        boardDto.setId(board.getId());
 //        boardDto.setTitle(board.getTitle());

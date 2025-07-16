@@ -7,6 +7,7 @@ import com.example.backend.board.entity.BoardFileId;
 import com.example.backend.board.repository.BoardFileRepository;
 import com.example.backend.board.repository.BoardRepository;
 import com.example.backend.comment.repository.CommentRepository;
+import com.example.backend.like.repository.BoardLikeRepository;
 import com.example.backend.member.entity.Member;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
     private final BoardFileRepository boardFileRepository;
+    private final BoardLikeRepository boardLikeRepository;
 
     // 게시물 작성 Create
     public void add(BoardAddForm dto, Authentication authentication) {
@@ -171,7 +173,7 @@ public class BoardService {
         return board;
     }
 
-    // 게시물 삭제 Delete + 거기에 있는 댓글들이 먼저 삭제되어야 함
+    // 게시물 삭제 Delete + 거기에 있는 댓글들이 먼저 삭제되어야 함 + 좋아요도 지우고 파일도 지우고
     public void deleteById(Integer id, Authentication authentication) {
         if (authentication == null) {
             throw new RuntimeException("권한이 없습니다.");
@@ -180,8 +182,15 @@ public class BoardService {
         Board db = boardRepository.findById(id).get();
 
         if (db.getAuthor().getEmail().equals(authentication.getName())) {
+            // 좋아요 삭제
+            boardLikeRepository.deleteByBoard(db);
+
+            // 파일 삭제
+            boardFileRepository.deleteByBoard(db);
+
             // 댓글들 먼저 삭제
             commentRepository.deleteByBoardId(id);
+
             boardRepository.deleteById(id);
         } else {
             throw new RuntimeException("권한이 없습니다.");

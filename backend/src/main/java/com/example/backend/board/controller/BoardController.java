@@ -1,9 +1,6 @@
 package com.example.backend.board.controller;
 
-import com.example.backend.board.dto.BoardAddForm;
-import com.example.backend.board.dto.BoardDto;
-import com.example.backend.board.dto.BoardListDto;
-import com.example.backend.board.dto.BoardListInfo;
+import com.example.backend.board.dto.*;
 import com.example.backend.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,25 +30,34 @@ public class BoardController {
     @PutMapping("{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateBoard(@PathVariable Integer id,
-                                         @RequestBody BoardDto boardDto,
+                                         BoardUpdateDto boardDto,
                                          Authentication authentication) {
+        System.out.println(boardDto);
+        System.out.println("추가 파일 ########");
+        boardDto.getFiles().forEach(boardFile -> {
+            System.out.println(boardFile.getOriginalFilename());
+        });
+        System.out.println("삭제 파일 ########");
+        boardDto.getDeleteFiles().forEach(System.out::println);
+        return null;
+
         // 값들이 유효한지 확인하는 메소드를 통해
-        boolean result = boardService.validate(boardDto);
-        if (result) {
-            // 제대로 되었을 때 service에게 일 시키고
-            boardService.update(boardDto, authentication);
-            // react에 보낼 응답
-            return ResponseEntity.ok().body(Map.of(
-                    "message", Map.of(
-                            "type", "success",
-                            "text", id + "번 게시물이 수정되었습니다.")));
-        } else {
-            // 이상할 때 react에 보낼 응답
-            return ResponseEntity.ok().body(Map.of(
-                    "message", Map.of(
-                            "type", "error",
-                            "text", "입력한 내용이 유효하지 않습니다.")));
-        }
+//        boolean result = boardService.validate(boardDto);
+//        if (result) {
+//            // 제대로 되었을 때 service에게 일 시키고
+//            boardService.update(boardDto, authentication);
+//            // react에 보낼 응답
+//            return ResponseEntity.ok().body(Map.of(
+//                    "message", Map.of(
+//                            "type", "success",
+//                            "text", id + "번 게시물이 수정되었습니다.")));
+//        } else {
+//            // 이상할 때 react에 보낼 응답
+//            return ResponseEntity.ok().body(Map.of(
+//                    "message", Map.of(
+//                            "type", "error",
+//                            "text", "입력한 내용이 유효하지 않습니다.")));
+//        }
     }
 
     @DeleteMapping("{id}")

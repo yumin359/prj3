@@ -1,5 +1,6 @@
 package com.example.backend.board.controller;
 
+import com.example.backend.board.dto.BoardAddForm;
 import com.example.backend.board.dto.BoardDto;
 import com.example.backend.board.dto.BoardListDto;
 import com.example.backend.board.dto.BoardListInfo;
@@ -83,10 +84,10 @@ public class BoardController {
 
     @PostMapping("add")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> add(@RequestBody BoardDto dto,
+    public ResponseEntity<?> add(@RequestBody BoardAddForm dto,
                                  Authentication authentication) {
         // 값들이 유효한지 확인하는 메소드를 통해
-        boolean result = boardService.validate(dto);
+        boolean result = boardService.validateForAdd(dto);
 
         if (result) {
             // 제대로 되었을 때 service에게 일 시키고

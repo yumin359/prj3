@@ -17,6 +17,7 @@ export function BoardAdd() {
   // 제목, 본문, 작성자는 입력값에 따라 바뀌니까 state로 써줌
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [files, setFiles] = useState([]);
   // const [author, setAuthor] = useState("");
   const { user } = useContext(AuthenticationContext);
 
@@ -31,9 +32,10 @@ export function BoardAdd() {
     // 중복 저장 state true 하고
     setIsProcessing(true);
     axios
-      .post("/api/board/add", {
+      .postForm("/api/board/add", {
         title: title,
         content: content,
+        files: files,
         // author: author,
       })
       .then((res) => {
@@ -92,6 +94,17 @@ export function BoardAdd() {
               rows={6}
               value={content}
               onChange={(e) => setContent(e.target.value)}
+            />
+          </FormGroup>
+        </div>
+        <div>
+          <FormGroup className="mb-3" controlId="files1">
+            <FormLabel>이미지 파일</FormLabel>
+            <FormControl
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) => setFiles(e.target.files)}
             />
           </FormGroup>
         </div>

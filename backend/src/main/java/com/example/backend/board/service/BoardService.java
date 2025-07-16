@@ -160,7 +160,7 @@ public class BoardService {
             fileDto.setName(boardFile.getId().getName());
             // 강사님은 8081로 뜨셔서
             // 내일은 aws에 s3 거기서 하는거로 한대용 -> 경로는 바뀜
-            fileDto.setPath("http://localhost:8080/boardFile/" + id + "/" + boardFile.getId().getName());
+            fileDto.setPath("http://localhost:8081/boardFile/" + id + "/" + boardFile.getId().getName());
             files.add(fileDto);
         }
 

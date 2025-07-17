@@ -2,6 +2,7 @@ package com.example.backend.member.service;
 
 import com.example.backend.board.entity.Board;
 import com.example.backend.board.repository.BoardRepository;
+import com.example.backend.board.service.BoardService;
 import com.example.backend.comment.repository.CommentRepository;
 import com.example.backend.like.repository.BoardLikeRepository;
 import com.example.backend.member.dto.*;
@@ -10,6 +11,7 @@ import com.example.backend.member.entity.Member;
 import com.example.backend.member.repository.AuthRepository;
 import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -35,6 +37,7 @@ public class MemberService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
     private final BoardLikeRepository boardLikeRepository;
+    private final BoardService boardService;
 
     // 회원 가입 Create
     public void add(MemberForm memberForm) {
@@ -107,7 +110,7 @@ public class MemberService {
         return memberDto;
     }
 
-    public void delete(MemberForm memberForm) {
+    public void delete(MemberForm memberForm, Authentication authentication) {
         Member db = memberRepository.findById(memberForm.getEmail()).get();
         // 암호를 암호화해서 저장했으므로
         // 암호화된 암호랑 평문 암호랑 같은지 matches로 확인해야함
@@ -129,8 +132,15 @@ public class MemberService {
             for (Board board : byAuthor) {
                 commentRepository.deleteByBoard(board);
             }
+
             // 회원이 쓴 게시물 지우기
-            boardRepository.deleteByAuthor(db);
+//            boardRepository.deleteByAuthor(db); 이렇게 말구
+            /// 1. 회원이 쓴 게시물 번호 목록을 얻고
+            List<Integer> boardIdList = boardRepository.listBoardIdByAuthor(db);
+            /// 2. 번호 목록을 탐색해서 boardService의 deleteById의 메소드 호출
+            for (Integer boardId : boardIdList) {
+                boardService.deleteById(boardId, authentication);
+            }
 
             // 좋아요 지우기
             boardLikeRepository.deleteByMember(db);

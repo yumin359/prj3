@@ -187,6 +187,17 @@ public class BoardService {
             // 좋아요 삭제
             boardLikeRepository.deleteByBoard(db);
 
+            // 디스크의 파일에 있는 거 먼저 삭제
+            ///  1. 파일 목록 얻고
+            List<String> fileNames = boardFileRepository.listFileNameByBoard(db);
+            /// 2. 파일 지우기
+            for (String fileName : fileNames) {
+                File f = new File("C:/Temp/prj3/boardFile/" + db.getId() + "/" + fileName);
+                if (f.exists()) {
+                    f.delete();
+                }
+            }
+
             // 파일 삭제
             boardFileRepository.deleteByBoard(db);
 

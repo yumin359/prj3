@@ -34,7 +34,7 @@ jobs:
           echo "${{secrets.PRIVATE_PEM}}" > backend/src/main/resources/secret/private.pem
           echo "${{secrets.PUBLIC_PEM}}" > backend/src/main/resources/secret/public.pem
 
-      # BACKEND BUILD 
+      # BACKEND BUILD
       - name: build spring boot app
         working-directory: ./backend
         run: ./gradlew bootJar

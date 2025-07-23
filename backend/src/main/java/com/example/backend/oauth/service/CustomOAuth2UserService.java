@@ -1,0 +1,73 @@
+package com.example.backend.oauth.service;
+
+import com.example.backend.member.entity.MemberTest; // MemberTest 엔티티 임포트
+import com.example.backend.member.repository.MemberTestRepository; // MemberTestRepository 임포트
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j; // Slf4j 로거 임포트
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // 트랜잭션 임포트
+
+import java.util.Map;
+import java.util.Optional;
+
+@Slf4j // Lombok의 Slf4j 로거 사용 (System.out.println 대신 권장)
+@Service // Spring 빈으로 등록하기 위해 @Service 어노테이션 사용
+@RequiredArgsConstructor
+@Transactional // DB 작업에 트랜잭션 적용
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    private final MemberTestRepository memberTestRepository; // MemberTestRepository 주입
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        // 로거를 통해 디버그 메시지 출력
+        log.debug("CustomOAuth2UserService - loadUser 메서드 진입");
+
+        // OAuth2 공급자로부터 사용자 정보 로드 (기본 서비스 사용)
+        OAuth2User oauth2User = super.loadUser(userRequest);
+
+        log.debug("OAuth2User attributes: {}", oauth2User.getAttributes());
+
+        // registrationId는 현재 로그인 진행 중인 서비스를 구분 (google, kakao, naver 등)
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
+                .getUserInfoEndpoint().getUserNameAttributeName();
+
+        Map<String, Object> attributes = oauth2User.getAttributes();
+        String email = (String) attributes.get("email"); // Google은 'email' 속성을 제공
+
+        log.debug("OAuth2 authentication successful for email: {}", email);
+
+        // 이메일을 기준으로 회원 조회 또는 저장/업데이트
+        Optional<MemberTest> memberOptional = memberTestRepository.findByEmail(email);
+        MemberTest member;
+
+        if (memberOptional.isPresent()) {
+            // 이미 존재하는 회원인 경우 정보 업데이트
+            member = memberOptional.get();
+            // 필요한 경우 닉네임, 프로필 이미지 등 정보 업데이트 로직 추가
+            log.debug("Existing user found: {}", member.getEmail());
+            // 예시: member.updateNickName((String) attributes.get("name"));
+        } else {
+            // 새로운 회원인 경우 저장
+            log.debug("New user detected. Saving to DB: {}", email);
+            member = MemberTest.builder()
+                    .email(email)
+                    // Google에서 제공하는 닉네임 사용 (없으면 기본값 또는 예외 처리)
+                    .nickName((String) attributes.get("name"))
+                    .password("oauth_user") // OAuth2 사용자는 비밀번호를 사용하지 않으므로 임의의 값 설정
+                    .provider(registrationId) // Google
+                    .scope("ROLE_USER") // 기본 역할 부여
+                    .build();
+            memberTestRepository.save(member);
+            log.debug("New user saved: {}", member.getEmail());
+        }
+
+        // Spring Security가 인증 객체를 생성할 때 사용할 OAuth2User 반환
+        return new CustomOAuth2User(oauth2User.getAuthorities(), attributes, userNameAttributeName);
+    }
+}

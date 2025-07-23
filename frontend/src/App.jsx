@@ -11,6 +11,7 @@ import { MemberEdit } from "./feature/member/MemberEdit.jsx";
 import { MemberLogin } from "./feature/member/MemberLogin.jsx";
 import { MemberLogout } from "./feature/member/MemberLogout.jsx";
 import { AuthenticationContextProvider } from "./common/AuthenticationContextProvider.jsx";
+import { OAuth2RedirectHandler } from "./feature/member/OAuth2RedirectHandler.jsx";
 
 function App() {
   return (
@@ -23,7 +24,13 @@ function App() {
             <Route path="board/:id" element={<BoardDetail />} />
             <Route path="board/edit" element={<BoardEdit />} />
             <Route path="signup" element={<MemberAdd />} />
+            {/* 일반 로그인 페이지 라우트 */}
             <Route path="login" element={<MemberLogin />} />
+            {/* 구글 로그인 페이지 라우트 */}
+            <Route
+              path="/oauth2/redirect"
+              element={<OAuth2RedirectHandler />}
+            />
             <Route path="logout" element={<MemberLogout />} />
             <Route path="member/list" element={<MemberList />} />
             <Route path="member" element={<MemberDetail />} />

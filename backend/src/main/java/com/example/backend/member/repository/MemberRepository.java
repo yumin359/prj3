@@ -12,6 +12,11 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     // spring data jpa 의 쿼리 메소드이고, 진짜 entity 전체를 조회함
     Optional<Member> findByNickName(String nickName);
 
+    Optional<Member> findByEmail(String email);
+
+    // OAuth2 사용자를 provider와 providerId로 찾는 메서드 추가
+    Optional<Member> findByProviderAndProviderId(String provider, String providerId);
+
     // 회원 목록 보기 메소드
     // 인터페이스 기반 Projection 이고, 일부 필드만 조회
     List<MemberListInfo> findAllBy();

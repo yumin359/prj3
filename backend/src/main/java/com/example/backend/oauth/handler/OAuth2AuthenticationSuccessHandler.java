@@ -1,6 +1,6 @@
 package com.example.backend.oauth.handler;
 
-import com.example.backend.member.repository.MemberTestRepository; // MemberTestRepository 임포트
+import com.example.backend.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j; // Slf4j 로거 임포트
 import org.springframework.security.core.Authentication;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final MemberTestRepository memberTestRepository; // MemberTestRepository 주입
+    private final MemberRepository memberRepository; // MemberTestRepository 주입
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -44,7 +44,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         // CustomOAuth2UserService에서 이미 회원 가입/업데이트를 처리했으므로, 여기서는 단순히 확인만 하거나 추가 로직 수행
         // memberTestRepository.findByEmail(email) 호출은 CustomOAuth2UserService에서 이미 했으므로 여기서는 불필요할 수 있습니다.
         // 다만, 추가적인 정보 확인 또는 세션/JWT 발급 등의 로직을 넣을 수 있습니다.
-        boolean isMemberExists = memberTestRepository.findByEmail(email).isPresent();
+        boolean isMemberExists = memberRepository.findByEmail(email).isPresent();
 
         if (isMemberExists) {
             log.info("OAuth2 인증 성공, 이메일: {} (DB에서 확인됨)", email);

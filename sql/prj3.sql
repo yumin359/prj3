@@ -22,7 +22,23 @@ CREATE TABLE member
     inserted_at datetime      NOT NULL DEFAULT NOW(),
     CONSTRAINT pk_member PRIMARY KEY (email)
 );
+ALTER TABLE member
+    ADD COLUMN provider    VARCHAR(255) NULL,
+    ADD COLUMN provider_id VARCHAR(255) NULL;
+-- 필요하다면 unique 제약조건 추가 (provider와 provider_id 조합으로)
+-- ALTER TABLE member ADD CONSTRAINT UQ_member_provider UNIQUE (provider, provider_id);
+ALTER TABLE member
+    MODIFY password VARCHAR(255) NULL;
+-- 또는 'nullable'로 변경하는 DB 문법 사용
+ALTER TABLE member
+    MODIFY nick_name VARCHAR(255) NULL;
+-- nickname도 null 가능하게.. 일단 함
+ALTER TABLE member
+    ADD COLUMN scope VARCHAR(255) NULL; -- 기본값은 NULL로 설정하여 기존 레코드에 영향이 없도록
+
 DROP TABLE member;
+SELECT *
+FROM member;
 
 # 권한 테이블
 CREATE TABLE auth

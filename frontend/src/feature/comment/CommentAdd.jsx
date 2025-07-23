@@ -2,7 +2,7 @@ import { Button, FloatingLabel, FormControl, Spinner } from "react-bootstrap";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx";
 import { BsSend } from "react-icons/bs";
 
 export function CommentAdd({ boardId, isProcessing, setIsProcessing }) {

@@ -2,7 +2,7 @@ import { Spinner } from "react-bootstrap";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx";
 
 // 서버에서 하는 일 없음
 export function MemberLogout() {

@@ -11,7 +11,7 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx";
 
 export function BoardAdd() {
   // 제목, 본문, 작성자는 입력값에 따라 바뀌니까 state로 써줌

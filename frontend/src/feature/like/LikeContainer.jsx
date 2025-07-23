@@ -2,7 +2,7 @@ import { GoHeart, GoHeartFill } from "react-icons/go";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx";
 
 export function LikeContainer({ boardId }) {
   const [isProcessing, setIsProcessing] = useState(false);

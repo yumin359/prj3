@@ -12,7 +12,7 @@ import {
   Modal,
   Spinner,
 } from "react-bootstrap";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx";
 import { FaTrashAlt, FaPencilAlt, FaUser, FaRegClock } from "react-icons/fa";
 
 export function CommentItem({ comment, isProcessing, setIsProcessing }) {

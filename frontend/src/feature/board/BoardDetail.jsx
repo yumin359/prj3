@@ -15,7 +15,7 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx";
 import { CommentContainer } from "../comment/CommentContainer.jsx";
 import { LikeContainer } from "../like/LikeContainer.jsx";
 

@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { toast } from "react-toastify";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx";
 
 export function MemberDetail() {
   // 회원 정보는 수정, 삭제에 따라 바뀔 수 있으므로 state

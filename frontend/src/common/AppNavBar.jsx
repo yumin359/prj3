@@ -9,7 +9,7 @@ import {
   Form,
 } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "./AuthenticationContextProvider.jsx";
+import { AuthenticationContext } from "./AuthenticationContext.jsx";
 import { FaRegUserCircle, FaSearch } from "react-icons/fa";
 
 export function AppNavBar() {

@@ -7,10 +7,10 @@ import {
   Row,
 } from "react-bootstrap";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { AuthenticationContext } from "../../common/AuthenticationContextProvider.jsx"; // 경로 확인!
+import { AuthenticationContext } from "../../common/AuthenticationContext.jsx"; // 경로 확인!
 
 export function MemberLogin() {
   const [email, setEmail] = useState("");

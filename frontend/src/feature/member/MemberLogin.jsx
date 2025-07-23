@@ -53,7 +53,7 @@ export function MemberLogin() {
   function handleGoogleLogInButtonClick() {
     // 구글 로그인 버튼 클릭 시 백엔드의 Spring Security OAuth2Client 시작 엔드포인트로 리디렉션
     // 이 URL로 요청하면 Spring Security가 구글 인증 페이지로 사용자를 보냅니다.
-    window.location.href = "/oauth2/authorization/google";
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
   }
 
   return (

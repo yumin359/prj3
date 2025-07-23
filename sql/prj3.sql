@@ -89,3 +89,13 @@ CREATE TABLE board_file
     PRIMARY KEY (board_id, name),
     FOREIGN KEY (board_id) REFERENCES board (id)
 );
+
+CREATE TABLE member_test
+(
+    id        BIGINT AUTO_INCREMENT PRIMARY KEY, -- id: bigint 타입, 자동 증가, 기본 키
+    email     VARCHAR(255) UNIQUE NOT NULL,      -- email: varchar, 고유(UNIQUE), NULL 허용 안함
+    password  VARCHAR(255),                      -- password: varchar, NULL 허용 (OAuth2 사용자를 위해)
+    nick_name VARCHAR(255)        NOT NULL,      -- nick_name: varchar, NULL 허용 안함
+    provider  VARCHAR(50)         NOT NULL,      -- provider: varchar, NULL 허용 안함
+    scope     VARCHAR(255)                       -- scope: varchar, NULL 허용
+);

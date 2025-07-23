@@ -99,3 +99,6 @@ CREATE TABLE member_test
     provider  VARCHAR(50)         NOT NULL,      -- provider: varchar, NULL 허용 안함
     scope     VARCHAR(255)                       -- scope: varchar, NULL 허용
 );
+
+SELECT *
+FROM member_test;

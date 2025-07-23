@@ -10,6 +10,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,7 @@ import java.security.interfaces.RSAPublicKey;
 @Configuration // 이 클래스가 스프링 설정 클래스임을 명시
 @EnableMethodSecurity // @PreAuthorize, @PostAuthorize 등을 사용할 수 있게 함
 @EnableWebSecurity // 웹 보안 활성화
+//@RequiredArgsConstructor
 public class AppConfiguration {
 
     // application.properties에서 주입받을 값들
@@ -62,38 +64,9 @@ public class AppConfiguration {
     }
 
     // Spring Security 필터 체인 설정
-    @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            // CustomOAuth2UserService와 OAuth2AuthenticationSuccessHandler를
-            // 메서드의 파라미터로 주입받습니다. 이렇게 하면 순환 참조 문제를 피할 수 있습니다.
-            // Spring이 이 메서드를 호출할 때, 이미 생성된 이 빈들을 찾아 주입해 줍니다.
-            CustomOAuth2UserService customOAuth2UserService,
-            OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler
-    ) throws Exception {
-        http
-                .csrf(c -> c.disable()) // CSRF 비활성화 (SPA에서 JWT 사용 시 일반적으로 비활성화)
-                .authorizeHttpRequests(auth -> auth
-                        // 이 경로들은 인증 없이도 접근 가능하도록 허용
-                        .requestMatchers("/api/member/login", "/api/member/register", "/oauth2/**", "/login/oauth2/**").permitAll()
-                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
-                )
-                .oauth2Login(oauth2 -> oauth2 // OAuth2 로그인 활성화
-                        .authorizationEndpoint(authz -> authz
-                                .baseUri("/oauth2/authorization") // OAuth2 로그인 시작 URL (프론트엔드에서 호출)
-                        )
-                        .redirectionEndpoint(redirection -> redirection
-                                .baseUri("/login/oauth2/code/*") // OAuth2 공급자로부터 콜백받는 URL (구글에서 지정한 주소)
-                        )
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService) // 사용자 정보 처리 서비스 등록
-                        )
-                        .successHandler(oAuth2AuthenticationSuccessHandler) // OAuth2 로그인 성공 후 처리할 핸들러 등록
-                )
-                .oauth2ResourceServer(c -> c.jwt(Customizer.withDefaults())); // JWT 리소스 서버 활성화 (JWT 토큰 검증)
-
-        return http.build();
-    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain() {
+//    }
 
     // JWT 토큰 디코더 (토큰 검증 시 사용)
     @Bean
